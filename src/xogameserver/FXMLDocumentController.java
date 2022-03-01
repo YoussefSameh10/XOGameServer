@@ -94,7 +94,12 @@ class GameHandler extends Thread {
     
     public void run() {
         while(true) {
-            
+            try {
+                String msg = dis.readLine();
+                System.out.println(msg);
+            } catch (IOException ex) {
+                Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
     
