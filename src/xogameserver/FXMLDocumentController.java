@@ -10,10 +10,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 import java.net.URL;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -22,10 +19,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import org.apache.derby.jdbc.ClientDriver;
-import java.sql.Connection;
-import services.DAO;
+import services.ServerAction;
+import services.RequestManager;
 
 /**
  *
@@ -42,7 +37,7 @@ public class FXMLDocumentController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-                 
+        
     }
 
     @FXML
@@ -84,13 +79,16 @@ class GameHandler extends Thread {
     
     int ID;
     
+    RequestManager requestManager;
+    
     public GameHandler(Socket cs) {
+        requestManager = RequestManager.getInstance();
         try {
             dis = new DataInputStream(cs.getInputStream());
             ps = new PrintStream(cs.getOutputStream());
             
-            GameHandler.onlineClients.add(this);
-            start();
+            //GameHandler.onlineClients.add(this);
+            this.start();
         } catch (IOException ex) {
             Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -100,7 +98,9 @@ class GameHandler extends Thread {
         while(true) {
             try {
                 String msg = dis.readLine();
-                System.out.println(msg);
+                ServerAction action = requestManager.parse(msg);
+                String response = requestManager.process(action);
+                ps.println(response);
             } catch (IOException ex) {
                 Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex);
             }
