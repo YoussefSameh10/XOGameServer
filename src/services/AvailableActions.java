@@ -10,11 +10,11 @@ package services;
  * @author Youssef
  */
 public enum AvailableActions {
-    Register("Register"),
-    Login("Login"),
+    Register("Register"), //DONE
+    Login("Login"), //DONE
     GetOnlinePlayersList("GetOnlinePlayersList"),
     Challenge("Challenge"),
-    ForwardChallenge("ForwardChallenge"),
+    ForwardChallenge("ForwardChallenge"), //hayt4al mn hena
     DeclineChallenge("DeclineChallenge"),
     AcceptChallenge("AcceptChallenge"),
     RespondToChallenge("RespondToChallenge"),
@@ -32,5 +32,5 @@ public enum AvailableActions {
  
     public String getString() {
         return action;
-    } 
+    }
 }

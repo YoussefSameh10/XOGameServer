@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package services;
-
+import xogameserver.GameHandler;
 /**
  *
  * @author Youssef
@@ -43,7 +43,7 @@ public class RequestManager {
         return new Register("x", "y");
     }
     
-    public String process(ServerAction action) { // bta5od el action bta3y w be check lw register aw login (else if login) // ha3ml check with UN 3a4an hoa unique
+    public String process(ServerAction action, GameHandler gameHandler) { // bta5od el action bta3y w be check lw register aw login (else if login) // ha3ml check with UN 3a4an hoa unique
         if(action instanceof Register) {
             boolean isSuccess = db.registerPlayer(((Register) action).username, ((Register) action).password);
             if(isSuccess) {
@@ -56,6 +56,10 @@ public class RequestManager {
         if(action instanceof Login){
             int userId = db.loginPlayer(((Login) action).userName, ((Login) action).password);
             if(userId != -1){
+                 // de lma n3rf hangebha ezayyy 
+                GameHandler.addOnlinePlayer(gameHandler);
+                System.out.println(GameHandler.onlineClients.size());
+                gameHandler.setID(userId);
                 return "Success,"+userId;
             }else{
                 return "Failure";
