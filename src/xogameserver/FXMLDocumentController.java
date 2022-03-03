@@ -87,6 +87,7 @@ class GameHandler extends Thread {
             dis = new DataInputStream(cs.getInputStream());
             ps = new PrintStream(cs.getOutputStream());
             
+            //when login successfully
             //GameHandler.onlineClients.add(this);
             this.start();
         } catch (IOException ex) {
@@ -97,6 +98,7 @@ class GameHandler extends Thread {
     public void run() {
         while(true) {
             try {
+                //y2ra el string w y7wlo l msg ll client
                 String msg = dis.readLine();
                 ServerAction action = requestManager.parse(msg);
                 String response = requestManager.process(action);

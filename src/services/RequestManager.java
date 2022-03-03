@@ -26,7 +26,7 @@ public class RequestManager {
         return  instance;
     }
     
-    public ServerAction parse(String msg) {
+    public ServerAction parse(String msg) { // bta5od string w btrag3 action swa2 kan register aw login aw...
         String[] parts;
         parts = msg.split(",");
         
@@ -35,10 +35,15 @@ public class RequestManager {
             String password = parts[2];
             return new Register(username, password);
         }
+        if(AvailableActions.Login.getString().equals(parts[0])){
+            String userName = parts[1];
+            String password = parts[2];
+            return new Login(userName, password);
+        }
         return new Register("x", "y");
     }
     
-    public String process(ServerAction action) {
+    public String process(ServerAction action) { // bta5od el action bta3y w be check lw register aw login (else if login) // ha3ml check with UN 3a4an hoa unique
         if(action instanceof Register) {
             boolean isSuccess = db.registerPlayer(((Register) action).username, ((Register) action).password);
             if(isSuccess) {
@@ -48,6 +53,15 @@ public class RequestManager {
                 return "Failure";
             }
         }
+        if(action instanceof Login){
+            int userId = db.loginPlayer(((Login) action).userName, ((Login) action).password);
+            if(userId != -1){
+                return "Success,"+userId;
+            }else{
+                return "Failure";
+            }
+        }
         return "";
     }
+    //ha match the un w ba3del el pass w lw tmama harg3 el success, id (with separator)
 }

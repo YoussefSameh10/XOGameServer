@@ -45,12 +45,12 @@ public class DAO implements Database {
     public boolean registerPlayer(String username, String password) {
         try {
             int id;
-            ResultSet players = getRegisteredPlayers();
+            ResultSet players = getRegisteredPlayers(); //3a4an ageb players last w azwd 3lih wa7d
             if(players.last()) {
                 id = players.getInt("id") + 1;
             }
             else {
-                id = 0;
+                id = 0; // lw mafi4 players ma3nah en el db fadya ezn id 0
             }
             
             PreparedStatement statement = con.prepareStatement("INSERT INTO PLAYER VALUES (?, ?, ?, ?)");
@@ -74,5 +74,29 @@ public class DAO implements Database {
         );
         ResultSet players = getStmt.executeQuery();
         return players;
+    }
+
+    @Override
+    public int loginPlayer(String username, String password) {
+        ResultSet rs;
+        System.out.println(username);
+        System.out.println(password);
+        try{
+            PreparedStatement statement = con.prepareStatement("SELECT * FROM PLAYER WHERE USERNAME=? AND PASSWORD=?");
+            statement.setString(1, username);
+            statement.setString(2, password);
+            
+            rs = statement.executeQuery();
+           if(rs.next()){
+               int id = rs.getInt(1);
+               return id;
+           }else{
+               return -1;
+           }        
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+            return -1;
+        }
+        
     }
 }

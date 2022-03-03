@@ -11,4 +11,5 @@ package services;
  */
 public interface Database {
     public boolean registerPlayer(String username, String password);
+    public int loginPlayer(String username, String password);
 }
