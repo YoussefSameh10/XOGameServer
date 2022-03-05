@@ -89,6 +89,7 @@ public class DAO implements Database {
             rs = statement.executeQuery();
            if(rs.next()){
                int id = rs.getInt(1);
+               System.out.println(id);
                return id;
            }else{
                return -1;
