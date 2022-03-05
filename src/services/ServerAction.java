@@ -14,8 +14,6 @@ public interface ServerAction {
     
 }
 
-
-
 class Register implements ServerAction {
     String username;
     String password;
@@ -41,42 +39,19 @@ class GetOnlinePlayersList implements ServerAction {
     
 }
 
-class Challenge implements ServerAction {
+class ChallengeRequest implements ServerAction {
     
 }
 
-class ForwardChallenge implements ServerAction {
+class ChallengeResponse implements ServerAction {
     
 }
 
-class DeclineChallenge implements ServerAction {
+
+class Move implements ServerAction {
     
 }
 
-class AcceptChallenge implements ServerAction {
-    
-}
-
-class RespondToChallenge implements ServerAction {
-    
-}
-
-class SendMove implements ServerAction {
-    
-}
-
-class ForwardMove implements ServerAction {
-    
-}
-
-class SendResult implements ServerAction {
-    
-}
-
-class Close implements ServerAction {
-    
-}
-
-class CloseServer implements ServerAction {
+class ClientClose implements ServerAction {
     
 }
