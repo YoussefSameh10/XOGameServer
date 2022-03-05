@@ -13,16 +13,10 @@ public enum AvailableActions {
     Register("Register"), //DONE
     Login("Login"), //DONE
     GetOnlinePlayersList("GetOnlinePlayersList"),
-    Challenge("Challenge"),
-    ForwardChallenge("ForwardChallenge"), //hayt4al mn hena
-    DeclineChallenge("DeclineChallenge"),
-    AcceptChallenge("AcceptChallenge"),
-    RespondToChallenge("RespondToChallenge"),
-    SendMove("SendMove"),
-    ForwardMove("ForwardMove"),
-    SendResult("SendResult"),
-    Close("Close"),
-    CloseServer("CloseServer");
+    ChallengeRequest("ChallengeRequest"),
+    ChallengeResponse("ChallengeResponse"),
+    Move("Move"),
+    ClientClose("ClientClose");
     
     private String action;
  
