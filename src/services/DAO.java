@@ -100,4 +100,28 @@ public class DAO implements Database {
         }
         
     }
+
+    @Override
+    public int closePlayer(int id) {
+        ResultSet rs;
+        System.out.println("Client Closed "+id);
+        
+        try{
+            PreparedStatement statement = con.prepareStatement("SELECT * FROM PLAYER WHERE ID=?");
+            statement.setInt(1, id);
+            rs = statement.executeQuery();
+           if(rs.next()){
+               int userid = rs.getInt(1);
+               System.out.println("close func from db "+userid);
+               return userid;
+           }else{
+               return -1;
+           }        
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+            return -1;
+        }
+        
+    }
+    
 }
