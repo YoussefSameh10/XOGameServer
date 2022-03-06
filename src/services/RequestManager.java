@@ -40,6 +40,10 @@ public class RequestManager {
             String password = parts[2];
             return new Login(userName, password);
         }
+        if(AvailableActions.ClientClose.getString().equals(parts[0])){
+            int userID = Integer.parseInt(parts[1]);
+            return new ClientClose(userID);
+        }
         return new Register("x", "y");
     }
     
@@ -63,6 +67,18 @@ public class RequestManager {
                 return "Success,"+userId;
             }else{
                 return "Failure";
+            }
+        }
+        if(action instanceof ClientClose){
+            int userid = db.closePlayer(((ClientClose) action).userID);
+            for(GameHandler gh : GameHandler.onlineClients){
+                if(gh.getID() == userid){
+                    GameHandler.onlineClients.remove(gh);
+                    System.out.println("user closed "+userid);
+                    return "Close,"+userid;
+                }else{
+                    return "Failure";
+                }
             }
         }
         return "";
