@@ -13,7 +13,7 @@ public class Game {
     private int ID;
     private int player1ID;
     private int player2ID;
-    private String record;
+    private String record;  
     private boolean player1Win;
 
     public int getID() {
