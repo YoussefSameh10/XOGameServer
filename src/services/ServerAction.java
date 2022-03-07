@@ -49,7 +49,15 @@ class ChallengeResponse implements ServerAction {
 
 
 class Move implements ServerAction {
+    int cellNumber ;
+    int senderId;
+    int recieverId;
     
+    public Move(int cellNumber , int senderId , int recieverId){
+        this.cellNumber = cellNumber;
+        this.senderId     = senderId ;
+        this.recieverId    = recieverId;
+    }
 }
 
 class ClientClose implements ServerAction {

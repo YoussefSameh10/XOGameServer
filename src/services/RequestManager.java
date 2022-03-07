@@ -44,6 +44,15 @@ public class RequestManager {
             int userID = Integer.parseInt(parts[1]);
             return new ClientClose(userID);
         }
+             //"PlayMove",senderId,recieverId, CellNumber   PlayMove,1,2,5
+
+         if(AvailableActions.Move.getString().equals(parts[0])){
+            int senderId = Integer.parseInt(parts[1]) ;
+            int recieverId = Integer.parseInt(parts[2]) ;
+            int cellToPlay = Integer.parseInt(parts[3]) ;
+            return new Move(cellToPlay, senderId, recieverId);
+        }
+        
         return new Register("x", "y");
     }
     
@@ -63,7 +72,7 @@ public class RequestManager {
                  // de lma n3rf hangebha ezayyy 
                 GameHandler.addOnlinePlayer(gameHandler);
                 System.out.println(GameHandler.onlineClients.size());
-                gameHandler.setID(userId);
+                gameHandler.setID(userId);//Save id for each socket (client)
                 return "Success,"+userId;
             }else{
                 return "Failure";
@@ -81,6 +90,19 @@ public class RequestManager {
                 }
             }
         }
+         if(action instanceof Move){
+             //"PlayMove",senderId,recieverId, CellNumber   PlayMove,1,2,5
+           if(gameHandler.didStartGame()){
+               gameHandler.playMove(((Move) action).cellNumber, ((Move) action).recieverId);
+               
+           }else{
+               gameHandler.startNewGame(((Move) action).senderId, ((Move) action).recieverId, true);
+               gameHandler.playMove(((Move) action).cellNumber, ((Move) action).recieverId);
+           }
+                
+        }
+        
+        
         return "";
     }
     //ha match the un w ba3del el pass w lw tmama harg3 el success, id (with separator)

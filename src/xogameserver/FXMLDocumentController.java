@@ -39,6 +39,7 @@ public class FXMLDocumentController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         
     }
+    
 
     @FXML
     private void startServer(ActionEvent event) {
