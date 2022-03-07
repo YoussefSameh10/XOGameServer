@@ -60,10 +60,10 @@ public class RequestManager {
         if(action instanceof Register) {
             boolean isSuccess = db.registerPlayer(((Register) action).username, ((Register) action).password);
             if(isSuccess) {
-                return "Success";
+                return "RegisterResponse,Success";
             }
             else{
-                return "Failure";
+                return "RegisterResponse,Failure";
             }
         }
         if(action instanceof Login){
@@ -73,9 +73,9 @@ public class RequestManager {
                 GameHandler.addOnlinePlayer(gameHandler);
                 System.out.println(GameHandler.onlineClients.size());
                 gameHandler.setID(userId);//Save id for each socket (client)
-                return "Success,"+userId;
+                return "LoginResponse,Success,"+userId;
             }else{
-                return "Failure";
+                return "LoginResponse,Failure";
             }
         }
         if(action instanceof ClientClose){
@@ -84,7 +84,7 @@ public class RequestManager {
                 if(gh.getID() == userid){
                     GameHandler.onlineClients.remove(gh);
                     System.out.println("user closed "+userid);
-                    return "Close,"+userid;
+                    return "ClientClose,"+userid;
                 }else{
                     return "Failure";
                 }
