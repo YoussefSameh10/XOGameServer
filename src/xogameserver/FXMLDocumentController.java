@@ -67,6 +67,6 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private void stopServer(ActionEvent event) {
-        System.out.println("stop");
+        System.out.println("stops");
     }
 }
