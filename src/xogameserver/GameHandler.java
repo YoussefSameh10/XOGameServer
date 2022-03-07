@@ -145,7 +145,7 @@ public class GameHandler extends Thread {
                 /*
                     for loop over all online players to end the  move to the right player
                  */
-                //           ps.println(response);
+                ps.println(response);
             } catch (IOException ex) {
                 Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex);
             }
