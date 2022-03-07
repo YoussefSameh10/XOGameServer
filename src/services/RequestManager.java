@@ -53,6 +53,9 @@ public class RequestManager {
             return new Move(cellToPlay, senderId, recieverId);
         }
         
+         if (AvailableActions.GetOnlinePlayersList.getString().equals(parts[0])){
+            return new GetOnlinePlayersList();
+        }
         return new Register("x", "y");
     }
     
@@ -102,6 +105,31 @@ public class RequestManager {
                 
         }
         
+        if (action instanceof GetOnlinePlayersList){
+            System.out.println("I am in the action of type GetOnlineList");
+            String usernames = "";
+            int noOfOnlineClients = GameHandler.onlineClients.size();
+            for (int i=0 ; i<noOfOnlineClients ; i++)
+            {
+                int currentPlayerID = GameHandler.onlineClients.get(i).getID();
+                String currentPlayerUsername = db.getPlayerAtID(currentPlayerID);
+                if(!currentPlayerUsername.equals(""));
+                {
+                    // usernames is empty 
+                    if (i==0)
+                    {
+                        usernames = currentPlayerUsername;
+                    }
+                    else 
+                    {
+                        // ahmed,mohamed
+                        usernames = usernames + "," + currentPlayerUsername;
+                    }
+                }
+            }
+            System.out.println(usernames);
+            return usernames;
+        }
         
         return "";
     }

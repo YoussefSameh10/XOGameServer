@@ -1,0 +1,16 @@
+Mon Mar 07 18:15:48 EET 2022 : Apache Derby Network Server - 10.10.2.0 - (1582446) started and ready to accept connections on port 1527
+----------------------------------------------------------------
+Mon Mar 07 18:15:49 EET 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-017f-652a-2be4-00001692381c 
+on database directory D:\ITI\Fundamentals\Java\Projects\XOGameServer\DB\XOGame with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Loaded from file:/C:/Program%20Files/glassfish-4.1.1/javadb/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_301-b09
+user.dir=C:\Program Files\glassfish-4.1.1\javadb
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=D:\ITI\Fundamentals\Java\Projects\XOGameServer\DB
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Mon Mar 07 18:21:24 EET 2022: Shutting down Derby engine
