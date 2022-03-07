@@ -122,12 +122,12 @@ public class GameHandler extends Thread {
     }
 
     public void forwardMoveToOpponent(int opponentId ,int cellNumber) {
-//        for(GameHandler gh : GameHandler.inGameClients){
-//                if(gh.getID() == opponentId){
-//                    System.out.println("Found opponent " );
-//                    gh.ps.println("Move,"+ID+","+opponentId+","+cellNumber);
-//                }
-//            }
+        for(GameHandler gh : GameHandler.onlineClients){
+                if(gh.getID() == opponentId){
+                    System.out.println("Found opponent " );
+                    gh.ps.println("Move,"+ID+","+opponentId+","+cellNumber);
+                }
+            }
                 System.out.println("ya wala ya za3eeem");
                 ps.println("Move,"+ID+","+opponentId+","+cellNumber);
 
