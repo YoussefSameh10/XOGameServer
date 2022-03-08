@@ -118,17 +118,17 @@ public class RequestManager {
                     // usernames is empty 
                     if (i==0)
                     {
-                        usernames = currentPlayerUsername;
+                        usernames = currentPlayerUsername + ":" + String.valueOf(currentPlayerID);
                     }
                     else 
                     {
                         // ahmed,mohamed
-                        usernames = usernames + "," + currentPlayerUsername;
+                        usernames = usernames + " " + currentPlayerUsername + ":" + String.valueOf(currentPlayerID);
                     }
                 }
             }
-            System.out.println(usernames);
-            return usernames;
+            
+            return "GetOnlinePlayersListResponse," + usernames;
         }
         
         return "";
