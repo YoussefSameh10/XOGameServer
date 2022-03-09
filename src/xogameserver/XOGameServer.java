@@ -28,6 +28,7 @@ public class XOGameServer extends Application {
         
         Scene scene = new Scene(root);
         stage.setOnCloseRequest((event) -> {
+            
             controller.didCloseServer();
             Platform.exit();
             System.exit(0);

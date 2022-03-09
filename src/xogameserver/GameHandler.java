@@ -176,13 +176,18 @@ public class GameHandler extends Thread {
             try {
                 //y2ra el string w y7wlo l msg ll client
                 String msg = dis.readLine();
-                System.out.println(msg);
-                ServerAction action = requestManager.parse(msg);
-                String response = requestManager.process(action, this);
-                /*
-                    for loop over all online players to end the  move to the right player
-                 */
-                ps.println(response);
+                System.out.println("YESSSSSSSSSSSSSSSSSSSS "+msg);
+                if(msg != null){
+                    ServerAction action = requestManager.parse(msg);
+                    String response = requestManager.process(action, this);
+                    /*
+                        for loop over all online players to end the  move to the right player
+                     */
+                    ps.println(response);
+                }else{
+                    System.out.println("CAN'T PARSE");
+                }
+                
             } catch (IOException ex) {
                 closeConnections();
             }

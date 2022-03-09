@@ -7,6 +7,7 @@ package services;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import models.Player;
 import xogameserver.GameHandler;
 /**
  *
@@ -72,13 +73,13 @@ public class RequestManager {
             }
         }
         if(action instanceof Login){
-            int userId = db.loginPlayer(((Login) action).userName, ((Login) action).password);
-            if(userId != -1){
+            Player player = db.loginPlayer(((Login) action).userName, ((Login) action).password);
+            if(player != null){
                  // de lma n3rf hangebha ezayyy 
                 GameHandler.addOnlinePlayer(gameHandler);
                 System.out.println(GameHandler.onlineClients.size());
-                gameHandler.setID(userId);//Save id for each socket (client)
-                return "LoginResponse,Success,"+userId;
+                gameHandler.setID(player.getID());//Save id for each socket (client)
+                return "LoginResponse,Success,"+player.getID()+","+player.getUsername()+","+player.getScore();
             }else{
                 return "LoginResponse,Failure";
             }
