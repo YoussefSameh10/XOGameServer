@@ -13,5 +13,6 @@ public interface Database {
     public boolean registerPlayer(String username, String password);
     public int loginPlayer(String username, String password);
     public int closePlayer(int id);
-    public String getPlayerAtID(int ID);
+    public String getPlayerUsername(int ID);
+    public int getPlayerScore(int ID);
 }

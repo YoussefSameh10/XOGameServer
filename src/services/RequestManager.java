@@ -117,18 +117,17 @@ public class RequestManager {
             for (int i=0 ; i<noOfOnlineClients ; i++)
             {
                 int currentPlayerID = GameHandler.onlineClients.get(i).getID();
-                String currentPlayerUsername = db.getPlayerAtID(currentPlayerID);
+                int currentPlayerScore = db.getPlayerScore(currentPlayerID);
+                String currentPlayerUsername = db.getPlayerUsername(currentPlayerID);
                 if(!currentPlayerUsername.equals(""));
                 {
-                    // usernames is empty 
                     if (i==0)
                     {
-                        usernames = currentPlayerUsername + ":" + String.valueOf(currentPlayerID);
+                        usernames = currentPlayerUsername + ":" + String.valueOf(currentPlayerID) + ":" +String.valueOf(currentPlayerScore);
                     }
                     else 
                     {
-                        // ahmed,mohamed
-                        usernames = usernames + " " + currentPlayerUsername + ":" + String.valueOf(currentPlayerID);
+                        usernames = usernames + " " + currentPlayerUsername + ":" + String.valueOf(currentPlayerID) + ":" + String.valueOf(currentPlayerScore);
                     }
                 }
             }
