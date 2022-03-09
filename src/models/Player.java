@@ -13,7 +13,6 @@ public class Player {
     private int ID;
     private String username;
     private String password;
-    private String state;
     private int score;
 
     public int getID() {
@@ -40,14 +39,6 @@ public class Player {
         this.password = password;
     }
 
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
     public int getScore() {
         return score;
     }
@@ -60,7 +51,6 @@ public class Player {
         this.ID = ID;
         this.username = username;
         this.password = password;
-        this.state = state;
         this.score = score;
     }
 }

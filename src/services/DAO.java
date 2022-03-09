@@ -125,7 +125,7 @@ public class DAO implements Database {
     }
     
     @Override
-    public String getPlayerAtID(int ID)
+    public String getPlayerUsername(int ID)
     {
         ResultSet rs;
         try{
@@ -143,5 +143,23 @@ public class DAO implements Database {
         }
         return "";
     }
-    
+    @Override
+    public int getPlayerScore(int ID)
+    {
+        ResultSet rs;
+        try{
+            PreparedStatement statement = con.prepareStatement("SELECT * FROM PLAYER WHERE ID=?");
+            statement.setInt(1, ID);
+            rs = statement.executeQuery();
+            if (rs.next()){
+                int playerScore = rs.getInt(4);
+                return playerScore;
+            }
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return -1;
+        }
+        return -1;
+    }
 }
