@@ -51,11 +51,12 @@ public class Game {
     public boolean isPlayer1Win() {
         return player1Win;
     }
-
+    
     public void setPlayer1Win(boolean player1Win) {
         this.player1Win = player1Win;
     }
 
+  
     public Game(int ID, int player1ID, int player2ID, String record, boolean player1Win) {
         this.ID = ID;
         this.player1ID = player1ID;
