@@ -38,7 +38,7 @@ public class GameHandler extends Thread {
             ps = new PrintStream(cs.getOutputStream());
 
             //when login successfully
-            //GameHandler.onlineClients.add(this);
+            //  GameHandler.onlineClients.add(this);
             this.start();
         } catch (IOException ex) {
             Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex);
@@ -73,47 +73,80 @@ public class GameHandler extends Thread {
         return !(match == null);
     }
 
-    public boolean playMove(int cellNumber ,int playerTwoId) {
-        System.out.println("Iam in playMove ya 7mar");
+    public boolean playMove(int cellNumber, int playerTwoId) {
         switch (cellNumber) {
             case 0:
                 boolean b1 = match.getBoard().placeMark(0, 0);
                 match.getBoard().printGame();
-               if (b1){ forwardMoveToOpponent(playerTwoId, cellNumber);}
+                if (b1) {
+                    forwardMoveToOpponent(playerTwoId, cellNumber);
+                }
                 //forward action to player 2
                 return b1;
 
             case 1:
                 boolean b2 = match.getBoard().placeMark(0, 1);
                 match.getBoard().printGame();
+                if (b2) {
+                    forwardMoveToOpponent(playerTwoId, cellNumber);
+                }
+
                 return b2;
             case 2:
                 boolean b3 = match.getBoard().placeMark(0, 2);
                 match.getBoard().printGame();
+                if (b3) {
+                    forwardMoveToOpponent(playerTwoId, cellNumber);
+                }
+
                 return b3;
             case 3:
                 boolean b4 = match.getBoard().placeMark(1, 0);
                 match.getBoard().printGame();
+                if (b4) {
+                    forwardMoveToOpponent(playerTwoId, cellNumber);
+                }
+
                 return b4;
             case 4:
                 boolean b5 = match.getBoard().placeMark(1, 1);
                 match.getBoard().printGame();
+                if (b5) {
+                    forwardMoveToOpponent(playerTwoId, cellNumber);
+                }
+
                 return b5;
             case 5:
                 boolean b6 = match.getBoard().placeMark(1, 2);
                 match.getBoard().printGame();
+                if (b6) {
+                    forwardMoveToOpponent(playerTwoId, cellNumber);
+                }
+
                 return b6;
             case 6:
                 boolean b7 = match.getBoard().placeMark(2, 0);
                 match.getBoard().printGame();
+                if (b7) {
+                    forwardMoveToOpponent(playerTwoId, cellNumber);
+                }
+
                 return b7;
             case 7:
                 boolean b8 = match.getBoard().placeMark(2, 1);
                 match.getBoard().printGame();
+                if (b8) {
+                    forwardMoveToOpponent(playerTwoId, cellNumber);
+                }
+
                 return b8;
             case 8:
                 boolean b9 = match.getBoard().placeMark(2, 2);
                 match.getBoard().printGame();
+                if (b9) {
+                    forwardMoveToOpponent(playerTwoId, cellNumber);
+                }
+
                 return b9;
             default:
                 return false;
@@ -121,15 +154,14 @@ public class GameHandler extends Thread {
 
     }
 
-    public void forwardMoveToOpponent(int opponentId ,int cellNumber) {
-        for(GameHandler gh : GameHandler.onlineClients){
-                if(gh.getID() == opponentId){
-                    System.out.println("Found opponent " );
-                    gh.ps.println("Move,"+ID+","+opponentId+","+cellNumber);
-                }
+    public void forwardMoveToOpponent(int opponentId, int cellNumber) {
+        for (GameHandler gh : GameHandler.onlineClients) {
+            if (gh.getID() == opponentId) {
+                gh.match = match;
+                System.out.println("Found opponent ");
+                gh.ps.println("Move," + ID + "," + opponentId + "," + cellNumber);
             }
-                System.out.println("ya wala ya za3eeem");
-                ps.println("Move,"+ID+","+opponentId+","+cellNumber);
+        }
 
     }
 
