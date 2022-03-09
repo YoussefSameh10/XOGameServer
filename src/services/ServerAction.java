@@ -61,9 +61,7 @@ class Move implements ServerAction {
 }
 
 class ClientClose implements ServerAction {
-    int userID;
-   
-    public ClientClose(int userID) {
-        this.userID = userID;
+    public ClientClose(){
+        
     }
 }

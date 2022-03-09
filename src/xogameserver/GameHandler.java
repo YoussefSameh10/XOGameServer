@@ -41,7 +41,14 @@ public class GameHandler extends Thread {
             //GameHandler.onlineClients.add(this);
             this.start();
         } catch (IOException ex) {
-            Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                cs.close();
+                ps.close();
+                dis.close();
+                Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex1) {
+                Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex1);
+            }
         }
     }
 
@@ -55,6 +62,22 @@ public class GameHandler extends Thread {
             Board board = new Board();
             match = new Match(playerOneId, playerTwoId, board, isGameStarter);
         }
+    }
+
+    public DataInputStream getDis() {
+        return dis;
+    }
+
+    public void setDis(DataInputStream dis) {
+        this.dis = dis;
+    }
+
+    public PrintStream getPs() {
+        return ps;
+    }
+
+    public void setPs(PrintStream ps) {
+        this.ps = ps;
     }
 
     public int getID() {
@@ -132,6 +155,20 @@ public class GameHandler extends Thread {
                 ps.println("Move,"+ID+","+opponentId+","+cellNumber);
 
     }
+    
+    public void closeConnections(){
+        onlineClients.remove(this);
+        try{
+            if(this.dis != null){
+                this.dis.close();
+            }
+            if(this.ps != null){
+                this.ps.close();
+            }
+        }catch (IOException ex) {
+            Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     @Override
     public void run() {
@@ -147,7 +184,7 @@ public class GameHandler extends Thread {
                  */
                 ps.println(response);
             } catch (IOException ex) {
-                Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex);
+                closeConnections();
             }
         }
     }
