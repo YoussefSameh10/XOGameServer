@@ -56,6 +56,11 @@ public class RequestManager {
          if (AvailableActions.GetOnlinePlayersList.getString().equals(parts[0])){
             return new GetOnlinePlayersList();
         }
+         if(AvailableActions.ChallengeRequest.getString().equals(parts[0])){
+            String id1 =  parts[1];
+            String id2 = parts[2];
+            return new ChallengeRequest(id1, id2);
+        }
         return new Register("x", "y");
     }
     
@@ -130,6 +135,10 @@ public class RequestManager {
             
             return "GetOnlinePlayersListResponse," + usernames;
         }
+         if(action instanceof ChallengeRequest){
+            System.out.println("i am in process  "+((ChallengeRequest) action).id1+((ChallengeRequest) action).id2);
+             return ((ChallengeRequest) action).id2;
+         }
         
         return "";
     }
