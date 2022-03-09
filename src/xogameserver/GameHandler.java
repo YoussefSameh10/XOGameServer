@@ -14,6 +14,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.Board;
 import models.Match;
+import static services.AvailableActions.ChallengeRequest;
+import services.ChallengeRequest;
 import services.RequestManager;
 import services.ServerAction;
 
@@ -132,6 +134,19 @@ public class GameHandler extends Thread {
                 ps.println("Move,"+ID+","+opponentId+","+cellNumber);
 
     }
+    
+    public void getPlayerFromonlineVector(String s){
+        for(int i = 0; i < GameHandler.onlineClients.size(); i++){
+            if(GameHandler.onlineClients.get(i).ID == 2){
+                   System.out.println("rrrrrrrrrrrrrrrrhhhhhhhhhhhhh");
+                 GameHandler.onlineClients.get(i).ps.println("ChallengeRequests,"+"qqq");
+                   GameHandler.onlineClients.get(i).ps.flush();
+                 System.out.println(GameHandler.onlineClients.get(i).ps);
+                   System.out.println("index = "+i);
+            }
+        }
+        System.out.println("the number of onlineClient"+GameHandler.onlineClients.size());
+    }
 
     @Override
     public void run() {
@@ -142,10 +157,15 @@ public class GameHandler extends Thread {
                 System.out.println(msg);
                 ServerAction action = requestManager.parse(msg);
                 String response = requestManager.process(action, this);
-                /*
-                    for loop over all online players to end the  move to the right player
-                 */
-                ps.println(response);
+                if(action instanceof ChallengeRequest  ){
+                    System.out.println("the resiver id: "+response);
+//                   for (int i = 0 ; i< 1000000 ; i++){}
+                    getPlayerFromonlineVector(response);
+                }else{
+                     ps.println(response);
+                    System.out.println("login , redister ");
+                }
+               // ps.println(response);
             } catch (IOException ex) {
                 Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex);
             }
