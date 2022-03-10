@@ -147,7 +147,8 @@ public class DAO implements Database {
         }
         return "";
     }
-    @Override
+ 
+     @Override
     public int getPlayerScore(int ID)
     {
         ResultSet rs;

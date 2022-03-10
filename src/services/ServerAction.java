@@ -48,9 +48,13 @@ class GetOnlinePlayersList implements ServerAction {
 //    
 //}
 
-class ChallengeResponse implements ServerAction {
-    
-}
+//class ChallengeResponse implements ServerAction {
+//    String respons;
+//    public ChallengeResponse(String respons){
+//        this.respons = respons;
+//    } 
+//    
+//}
 
 
 class Move implements ServerAction {

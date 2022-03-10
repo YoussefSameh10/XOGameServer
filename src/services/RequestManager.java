@@ -62,51 +62,67 @@ public class RequestManager {
          if(AvailableActions.ChallengeRequest.getString().equals(parts[0])){
             String id1 =  parts[1];
             String id2 = parts[2];
+            
             return new ChallengeRequest(id1, id2);
+        }
+          if(AvailableActions.ChallengeResponse.getString().equals(parts[0])){
+            String challangeRespons =  parts[1];
+            String id1 = parts[2];
+            String id2 = parts[3];
+            
+            
+            return new ChallengeResponse(challangeRespons,id1,id2);
         }
         return new Register("x", "y");
     }
     
-    public String process(ServerAction action, GameHandler gameHandler) { // bta5od el action bta3y w be check lw register aw login (else if login) // ha3ml check with UN 3a4an hoa unique
+    public void process(ServerAction action, GameHandler gameHandler) { // bta5od el action bta3y w be check lw register aw login (else if login) // ha3ml check with UN 3a4an hoa unique
         if(action instanceof Register) {
             boolean isSuccess = db.registerPlayer(((Register) action).username, ((Register) action).password);
             if(isSuccess) {
-                return "RegisterResponse,Success";
+                String respons = "RegisterResponse,Success";
+                 gameHandler.getPs().println(respons);
+               // return "RegisterResponse,Success";
             }
             else{
-                return "RegisterResponse,Failure";
+                String respons = "RegisterResponse,Failure";
+                 gameHandler.getPs().println(respons);
+               // return "RegisterResponse,Failure";
             }
         }
         if(action instanceof Login){
             Player player = db.loginPlayer(((Login) action).userName, ((Login) action).password);
             if(player != null){
-                 // de lma n3rf hangebha ezayyy 
                 GameHandler.addOnlinePlayer(gameHandler);
-                System.out.println(GameHandler.onlineClients.size());
-                gameHandler.setID(player.getID());//Save id for each socket (client)
-                return "LoginResponse,Success,"+player.getID()+","+player.getUsername()+","+player.getScore();
+                gameHandler.setID(player.getID());
+                String respons = "LoginResponse,Success,"+player.getID()+","+player.getUsername()+","+player.getScore();
+                gameHandler.getPs().println(respons);
             }else{
-                return "LoginResponse,Failure";
+                String respons = "LoginResponse,Failure";
+                 gameHandler.getPs().println(respons);
+               // return "LoginResponse,Failure";
             }
         }
         if(action instanceof ClientClose){
-            //int userid = db.closePlayer(((ClientClose) action).userID);
             for(GameHandler gh : GameHandler.onlineClients){
                 if(gh.getID() == gameHandler.getID()){
                     try {
                         GameHandler.onlineClients.remove(gh);
                         gameHandler.getDis().close();
                         gameHandler.getPs().close();
-                        System.out.println("user closed ");
-                        return "ServerClose,Success";
+                        String respons = "ServerClose,Success";
+                        gameHandler.getPs().println(respons);
                     } catch (IOException ex) {
                         Logger.getLogger(RequestManager.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }else{
-                    return "ServerClose,Failure";
+
+                    String respons =  "ServerClose,Failure";
+                    gameHandler.getPs().println(respons);
                 }
             }
         }
+    
          if(action instanceof Move){
              //"PlayMove",senderId,recieverId, CellNumber   PlayMove,1,2,5
            if(gameHandler.didStartGame()){
@@ -140,15 +156,36 @@ public class RequestManager {
                     }
                 }
             }
-            
-            return "GetOnlinePlayersListResponse," + usernames;
+            String respons ="GetOnlinePlayersListResponse," + usernames ;
+           gameHandler.getPs().println(respons);
         }
          if(action instanceof ChallengeRequest){
-            System.out.println("i am in process  "+((ChallengeRequest) action).id1+((ChallengeRequest) action).id2);
-             return ((ChallengeRequest) action).id2;
+            System.out.println("i am in processhhhhhhhhhhhhhh  "+((ChallengeRequest) action).id1+((ChallengeRequest) action).id2);
+            int id1 = Integer.parseInt(((ChallengeRequest) action).id1);
+            int id2 = Integer.parseInt(((ChallengeRequest) action).id2);
+           String name1= db.getPlayerUsername(id1);
+            String name2= db.getPlayerUsername(id2);
+            String score1 = Integer.toString(db.getPlayerScore(id1));
+            String score2 = Integer.toString(db.getPlayerScore(id2));
+            gameHandler.getPlayerFromonlineVector(((ChallengeRequest) action).id1,((ChallengeRequest) action).id2,name1,name2,score1,score2);
+            // return ((ChallengeRequest) action).id2;
+         }
+         
+         if(action instanceof ChallengeResponse){
+            System.out.println(((ChallengeResponse) action).respons+"ggggggggggggggggg");
+             int id1 = Integer.parseInt(((ChallengeResponse) action).id1);
+            int id2 = Integer.parseInt(((ChallengeResponse) action).id2);
+           String name1= db.getPlayerUsername(id1);
+            String name2= db.getPlayerUsername(id2);
+            String score1 = Integer.toString(db.getPlayerScore(id1));
+            String score2 = Integer.toString(db.getPlayerScore(id2));
+            String respons =((ChallengeResponse) action).respons;
+           gameHandler.replyonPlayer( respons,((ChallengeResponse) action).id1,((ChallengeResponse) action).id2,name1,name2,score1,score2);
+             System.out.println("gggggggggggggggkkkkkkkkkkkkkkkkllllllllllllllllll"+((ChallengeResponse) action).respons);
+             //return ((ChallengeResponse) action).respons;
          }
         
-        return "";
+       
     }
-    //ha match the un w ba3del el pass w lw tmama harg3 el success, id (with separator)
+    
 }
