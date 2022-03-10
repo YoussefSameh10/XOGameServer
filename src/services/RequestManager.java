@@ -59,19 +59,32 @@ public class RequestManager {
          if(AvailableActions.ChallengeRequest.getString().equals(parts[0])){
             String id1 =  parts[1];
             String id2 = parts[2];
+            
             return new ChallengeRequest(id1, id2);
+        }
+          if(AvailableActions.ChallengeResponse.getString().equals(parts[0])){
+            String challangeRespons =  parts[1];
+            String id1 = parts[2];
+            String id2 = parts[3];
+            
+            
+            return new ChallengeResponse(challangeRespons,id1,id2);
         }
         return new Register("x", "y");
     }
     
-    public String process(ServerAction action, GameHandler gameHandler) { // bta5od el action bta3y w be check lw register aw login (else if login) // ha3ml check with UN 3a4an hoa unique
+    public void process(ServerAction action, GameHandler gameHandler) { // bta5od el action bta3y w be check lw register aw login (else if login) // ha3ml check with UN 3a4an hoa unique
         if(action instanceof Register) {
             boolean isSuccess = db.registerPlayer(((Register) action).username, ((Register) action).password);
             if(isSuccess) {
-                return "RegisterResponse,Success";
+                String respons = "RegisterResponse,Success";
+                 gameHandler.getPs().println(respons);
+               // return "RegisterResponse,Success";
             }
             else{
-                return "RegisterResponse,Failure";
+                String respons = "RegisterResponse,Failure";
+                 gameHandler.getPs().println(respons);
+               // return "RegisterResponse,Failure";
             }
         }
         if(action instanceof Login){
@@ -81,9 +94,13 @@ public class RequestManager {
                 GameHandler.addOnlinePlayer(gameHandler);
                 System.out.println(GameHandler.onlineClients.size());
                 gameHandler.setID(userId);//Save id for each socket (client)
-                return "LoginResponse,Success,"+userId;
+                 String respons = "LoginResponse,Success,"+userId;
+                 gameHandler.getPs().println(respons);
+              //  return "LoginResponse,Success,"+userId;
             }else{
-                return "LoginResponse,Failure";
+                String respons = "LoginResponse,Failure";
+                 gameHandler.getPs().println(respons);
+               // return "LoginResponse,Failure";
             }
         }
         if(action instanceof ClientClose){
@@ -92,9 +109,13 @@ public class RequestManager {
                 if(gh.getID() == userid){
                     GameHandler.onlineClients.remove(gh);
                     System.out.println("user closed "+userid);
-                    return "ClientClose,"+userid;
+                    String respons = "ClientClose,"+userid;
+                   gameHandler.getPs().println(respons);
+                   // return "ClientClose,"+userid;
                 }else{
-                    return "Failure";
+                     String respons = "Failure";
+                   gameHandler.getPs().println(respons);
+                 //   return "Failure";
                 }
             }
         }
@@ -132,15 +153,36 @@ public class RequestManager {
                     }
                 }
             }
-            
-            return "GetOnlinePlayersListResponse," + usernames;
+            String respons ="GetOnlinePlayersListResponse," + usernames ;
+           gameHandler.getPs().println(respons);
         }
          if(action instanceof ChallengeRequest){
-            System.out.println("i am in process  "+((ChallengeRequest) action).id1+((ChallengeRequest) action).id2);
-             return ((ChallengeRequest) action).id2;
+            System.out.println("i am in processhhhhhhhhhhhhhh  "+((ChallengeRequest) action).id1+((ChallengeRequest) action).id2);
+            int id1 = Integer.parseInt(((ChallengeRequest) action).id1);
+            int id2 = Integer.parseInt(((ChallengeRequest) action).id2);
+           String name1= db.getPlayerUsername(id1);
+            String name2= db.getPlayerUsername(id2);
+            String score1 = Integer.toString(db.getPlayerScore(id1));
+            String score2 = Integer.toString(db.getPlayerScore(id2));
+            gameHandler.getPlayerFromonlineVector(((ChallengeRequest) action).id1,((ChallengeRequest) action).id2,name1,name2,score1,score2);
+            // return ((ChallengeRequest) action).id2;
+         }
+         
+         if(action instanceof ChallengeResponse){
+            System.out.println(((ChallengeResponse) action).respons+"ggggggggggggggggg");
+             int id1 = Integer.parseInt(((ChallengeResponse) action).id1);
+            int id2 = Integer.parseInt(((ChallengeResponse) action).id2);
+           String name1= db.getPlayerUsername(id1);
+            String name2= db.getPlayerUsername(id2);
+            String score1 = Integer.toString(db.getPlayerScore(id1));
+            String score2 = Integer.toString(db.getPlayerScore(id2));
+            String respons =((ChallengeResponse) action).respons;
+           gameHandler.replyonPlayer( respons,((ChallengeResponse) action).id1,((ChallengeResponse) action).id2,name1,name2,score1,score2);
+             System.out.println("gggggggggggggggkkkkkkkkkkkkkkkkllllllllllllllllll"+((ChallengeResponse) action).respons);
+             //return ((ChallengeResponse) action).respons;
          }
         
-        return "";
+       
     }
-    //ha match the un w ba3del el pass w lw tmama harg3 el success, id (with separator)
+    
 }

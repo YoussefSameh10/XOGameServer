@@ -1,8 +1,8 @@
-Wed Mar 09 00:21:43 EET 2022 : Apache Derby Network Server - 10.10.2.0 - (1582446) started and ready to accept connections on port 1527
+Thu Mar 10 18:56:44 EET 2022 : Apache Derby Network Server - 10.10.2.0 - (1582446) started and ready to accept connections on port 1527
 ----------------------------------------------------------------
-Wed Mar 09 00:21:43 EET 2022:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-017f-6b9f-8a49-00001692381c 
-on database directory D:\ITI\Fundamentals\Java\Projects\XOGameServer\DB\XOGame with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
+Thu Mar 10 18:56:45 EET 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-017f-74c2-a978-00006a55dd16 
+on database directory C:\Users\dell\Desktop\java\XOGameServer\DB\XOGame with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
 Loaded from file:/C:/Program%20Files/glassfish-4.1.1/javadb/lib/derby.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.8.0_321-b07
@@ -12,4 +12,9 @@ os.arch=amd64
 os.version=10.0
 derby.system.home=C:\Users\dell\Desktop\java\XOGameServer\DB
 Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Thu Mar 10 19:37:26 EET 2022: Shutting down Derby engine
+----------------------------------------------------------------
+Thu Mar 10 19:37:26 EET 2022:
+Shutting down instance a816c00e-017f-74c2-a978-00006a55dd16 on database directory C:\Users\dell\Desktop\java\XOGameServer\DB\XOGame with class loader sun.misc.Launcher$AppClassLoader@1d44bcfa 
 ----------------------------------------------------------------

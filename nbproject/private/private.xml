@@ -3,7 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/ITI/Fundamentals/Java/Projects/XOGameServer/src/services/RequestManager.java</file>
+            <file>file:/C:/Users/dell/Desktop/java/XOGameServer/src/services/ChallengeRequest.java</file>
+            <file>file:/C:/Users/dell/Desktop/java/XOGameServer/src/services/ChallengeResponse.java</file>
+            <file>file:/C:/Users/dell/Desktop/java/XOGameServer/src/xogameserver/GameHandler.java</file>
+            <file>file:/C:/Users/dell/Desktop/java/XOGameServer/src/services/RequestManager.java</file>
         </group>
     </open-files>
 </project-private>

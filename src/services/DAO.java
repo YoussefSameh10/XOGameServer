@@ -143,5 +143,43 @@ public class DAO implements Database {
         }
         return "";
     }
+     @Override
+    public String getPlayerUsername(int ID)
+    {
+        ResultSet rs;
+        try{
+            PreparedStatement statement = con.prepareStatement("SELECT * FROM PLAYER WHERE ID=?");
+            statement.setInt(1, ID);
+            rs = statement.executeQuery();
+            if (rs.next()){
+                String username = rs.getString(2);
+                return username;
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+            return "";
+        }
+        return "";
+    }
+     @Override
+    public int getPlayerScore(int ID)
+    {
+        ResultSet rs;
+        try{
+            PreparedStatement statement = con.prepareStatement("SELECT * FROM PLAYER WHERE ID=?");
+            statement.setInt(1, ID);
+            rs = statement.executeQuery();
+            if (rs.next()){
+                int playerScore = rs.getInt(4);
+                return playerScore;
+            }
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return -1;
+        }
+        return -1;
+    }
     
 }
