@@ -246,7 +246,7 @@ public class GameHandler extends Thread {
     }
 
     public void forwardMoveToOpponent(int opponentId, int cellNumber) {
-        for (GameHandler gh : GameHandler.onlineClients) {
+        for (GameHandler gh : GameHandler.inGameClients) {
             if (gh.getID() == opponentId) {
                 gh.match = match;
                 System.out.println("Found opponent ");
