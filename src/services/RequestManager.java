@@ -4,6 +4,10 @@
  * and open the template in the editor.
  */
 package services;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import models.Player;
 import xogameserver.GameHandler;
 /**
  *
@@ -41,8 +45,7 @@ public class RequestManager {
             return new Login(userName, password);
         }
         if(AvailableActions.ClientClose.getString().equals(parts[0])){
-            int userID = Integer.parseInt(parts[1]);
-            return new ClientClose(userID);
+            return new ClientClose();
         }
              //"PlayMove",senderId,recieverId, CellNumber   PlayMove,1,2,5
 
@@ -75,26 +78,32 @@ public class RequestManager {
             }
         }
         if(action instanceof Login){
-            int userId = db.loginPlayer(((Login) action).userName, ((Login) action).password);
-            if(userId != -1){
+            Player player = db.loginPlayer(((Login) action).userName, ((Login) action).password);
+            if(player != null){
                  // de lma n3rf hangebha ezayyy 
                 GameHandler.addOnlinePlayer(gameHandler);
                 System.out.println(GameHandler.onlineClients.size());
-                gameHandler.setID(userId);//Save id for each socket (client)
-                return "LoginResponse,Success,"+userId;
+                gameHandler.setID(player.getID());//Save id for each socket (client)
+                return "LoginResponse,Success,"+player.getID()+","+player.getUsername()+","+player.getScore();
             }else{
                 return "LoginResponse,Failure";
             }
         }
         if(action instanceof ClientClose){
-            int userid = db.closePlayer(((ClientClose) action).userID);
+            //int userid = db.closePlayer(((ClientClose) action).userID);
             for(GameHandler gh : GameHandler.onlineClients){
-                if(gh.getID() == userid){
-                    GameHandler.onlineClients.remove(gh);
-                    System.out.println("user closed "+userid);
-                    return "ClientClose,"+userid;
+                if(gh.getID() == gameHandler.getID()){
+                    try {
+                        GameHandler.onlineClients.remove(gh);
+                        gameHandler.getDis().close();
+                        gameHandler.getPs().close();
+                        System.out.println("user closed ");
+                        return "ServerClose,Success";
+                    } catch (IOException ex) {
+                        Logger.getLogger(RequestManager.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }else{
-                    return "Failure";
+                    return "ServerClose,Failure";
                 }
             }
         }

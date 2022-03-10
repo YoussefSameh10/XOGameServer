@@ -5,13 +5,15 @@
  */
 package services;
 
+import models.Player;
+
 /**
  *
  * @author Youssef
  */
 public interface Database {
     public boolean registerPlayer(String username, String password);
-    public int loginPlayer(String username, String password);
+    public Player loginPlayer(String username, String password);
     public int closePlayer(int id);
     public String getPlayerUsername(int ID);
     public int getPlayerScore(int ID);

@@ -5,7 +5,11 @@
  */
 package xogameserver;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,9 +24,14 @@ public class XOGameServer extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        FXMLDocumentController controller = new FXMLDocumentController();
         
         Scene scene = new Scene(root);
-        
+        stage.setOnCloseRequest((event) -> {
+            controller.didCloseServer();
+            Platform.exit();
+            System.exit(0);
+        });
         stage.setScene(scene);
         stage.show();
     }

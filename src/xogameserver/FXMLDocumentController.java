@@ -15,6 +15,7 @@ import java.util.ResourceBundle;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -63,10 +64,27 @@ public class FXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        startButton.setDisable(true);
+        stopButton.setDisable(false);
     }
 
     @FXML
     private void stopServer(ActionEvent event) {
+        startButton.setDisable(false);
+        stopButton.setDisable(true);
         System.out.println("stops");
+        didCloseServer();
+        Platform.exit();
+        System.exit(0);
+    }
+    
+    
+    public void didCloseServer(){
+        System.out.println("MSG FROM SERVER: URGENT SERVER CLOSE");
+        for(GameHandler gh : GameHandler.onlineClients){
+            System.out.println("MSG FROM SERVER: URGENT SERVER CLOSE  heloooooooo" + GameHandler.onlineClients.size());
+            gh.ps.println("ServerClose,Success");
+        }
+        GameHandler.onlineClients.removeAllElements();
     }
 }

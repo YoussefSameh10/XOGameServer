@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import models.Player;
 import org.apache.derby.jdbc.ClientDriver;
 
 /**
@@ -77,7 +78,7 @@ public class DAO implements Database {
     }
 
     @Override
-    public int loginPlayer(String username, String password) {
+    public Player loginPlayer(String username, String password) {
         ResultSet rs;
         System.out.println(username);
         System.out.println(password);
@@ -89,14 +90,17 @@ public class DAO implements Database {
             rs = statement.executeQuery();
            if(rs.next()){
                int id = rs.getInt(1);
+               String userName = rs.getString(2);
+               String myPassword = rs.getString(3);
+               int score = rs.getInt(4);
                System.out.println(id);
-               return id;
+               return new Player(id, userName, myPassword, score);
            }else{
-               return -1;
+               return null;
            }        
         } catch (SQLException ex) {
             Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
-            return -1;
+            return null;
         }
         
     }

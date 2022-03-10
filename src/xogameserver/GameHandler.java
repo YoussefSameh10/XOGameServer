@@ -43,7 +43,15 @@ public class GameHandler extends Thread {
             //GameHandler.onlineClients.add(this);
             this.start();
         } catch (IOException ex) {
-            Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex);
+            try {
+                System.out.println("from server: i closed the connection");
+                cs.close();
+                ps.close();
+                dis.close();
+                Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex1) {
+                Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex1);
+            }
         }
     }
 
@@ -57,6 +65,22 @@ public class GameHandler extends Thread {
             Board board = new Board();
             match = new Match(playerOneId, playerTwoId, board, isGameStarter);
         }
+    }
+
+    public DataInputStream getDis() {
+        return dis;
+    }
+
+    public void setDis(DataInputStream dis) {
+        this.dis = dis;
+    }
+
+    public PrintStream getPs() {
+        return ps;
+    }
+
+    public void setPs(PrintStream ps) {
+        this.ps = ps;
     }
 
     public int getID() {
@@ -146,28 +170,47 @@ public class GameHandler extends Thread {
             }
         }
         System.out.println("the number of onlineClient"+GameHandler.onlineClients.size());
+
+    }
+            
+    public void closeConnections(){
+        onlineClients.remove(this);
+        System.out.println("from server: i closed the connection");
+        try{
+            if(this.dis != null){
+                this.dis.close();
+            }
+            if(this.ps != null){
+                this.ps.close();
+            }
+        }catch (IOException ex) {
+            Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
     public void run() {
         while (true) {
+            
             try {
                 //y2ra el string w y7wlo l msg ll client
+                System.out.println("THE DIS IN THE GAMEHANDLER IS: "+dis);
+                System.out.println("THE PS IN THE GAMEHANDLER IS: "+ps);
                 String msg = dis.readLine();
-                System.out.println(msg);
-                ServerAction action = requestManager.parse(msg);
-                String response = requestManager.process(action, this);
-                if(action instanceof ChallengeRequest  ){
-                    System.out.println("the resiver id: "+response);
-//                   for (int i = 0 ; i< 1000000 ; i++){}
-                    getPlayerFromonlineVector(response);
+                System.out.println("YESSSSSSSSSSSSSSSSSSSS "+msg);
+                if(msg != null){
+                    ServerAction action = requestManager.parse(msg);
+                    String response = requestManager.process(action, this);
+                    /*
+                        for loop over all online players to end the  move to the right player
+                     */
+                    ps.println(response);
                 }else{
-                     ps.println(response);
-                    System.out.println("login , redister ");
+                    System.out.println("CAN'T PARSE");
                 }
-               // ps.println(response);
             } catch (IOException ex) {
-                Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex);
+                closeConnections();
+                break;
             }
         }
     }
