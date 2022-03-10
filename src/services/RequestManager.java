@@ -107,20 +107,22 @@ public class RequestManager {
             for(GameHandler gh : GameHandler.onlineClients){
                 if(gh.getID() == gameHandler.getID()){
                     try {
-                        GameHandler.onlineClients.remove(gh);
+                        //GameHandler.onlineClients.remove(gh);
                         gameHandler.getDis().close();
                         gameHandler.getPs().close();
-                        String respons = "ServerClose,Success";
-                        gameHandler.getPs().println(respons);
+//                        String respons = "ServerClose,Success";
+//                        gameHandler.getPs().println(respons);
                     } catch (IOException ex) {
                         Logger.getLogger(RequestManager.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }else{
 
-                    String respons =  "ServerClose,Failure";
-                    gameHandler.getPs().println(respons);
+//                    String respons =  "ServerClose,Failure";
+//                    gameHandler.getPs().println(respons);
                 }
             }
+            
+            gameHandler.onlineClients.remove(gameHandler);
         }
     
          if(action instanceof Move){
