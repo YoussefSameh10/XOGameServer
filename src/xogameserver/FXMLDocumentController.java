@@ -74,8 +74,8 @@ public class FXMLDocumentController implements Initializable {
         stopButton.setDisable(true);
         System.out.println("stops");
         didCloseServer();
-//        Platform.exit();
-//        System.exit(0);
+        Platform.exit();
+        System.exit(0);
     }
     
     

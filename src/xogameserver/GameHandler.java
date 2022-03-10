@@ -42,6 +42,7 @@ public class GameHandler extends Thread {
             this.start();
         } catch (IOException ex) {
             try {
+                System.out.println("from server: i closed the connection");
                 cs.close();
                 ps.close();
                 dis.close();
@@ -158,6 +159,7 @@ public class GameHandler extends Thread {
     
     public void closeConnections(){
         onlineClients.remove(this);
+        System.out.println("from server: i closed the connection");
         try{
             if(this.dis != null){
                 this.dis.close();
@@ -173,8 +175,11 @@ public class GameHandler extends Thread {
     @Override
     public void run() {
         while (true) {
+            
             try {
                 //y2ra el string w y7wlo l msg ll client
+                System.out.println("THE DIS IN THE GAMEHANDLER IS: "+dis);
+                System.out.println("THE PS IN THE GAMEHANDLER IS: "+ps);
                 String msg = dis.readLine();
                 System.out.println("YESSSSSSSSSSSSSSSSSSSS "+msg);
                 if(msg != null){
@@ -187,9 +192,9 @@ public class GameHandler extends Thread {
                 }else{
                     System.out.println("CAN'T PARSE");
                 }
-                
             } catch (IOException ex) {
                 closeConnections();
+                break;
             }
         }
     }
