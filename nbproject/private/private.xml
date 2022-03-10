@@ -2,6 +2,19 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/E:/1ITI/23Java/Project/TicTacToe/XOGameServer/src/services/DAO.java</file>
+            <file>file:/E:/1ITI/23Java/Project/TicTacToe/XOGameServer/src/xogameserver/XOGameServer.java</file>
+            <file>file:/E:/1ITI/23Java/Project/TicTacToe/XOGameServer/src/models/Mark.java</file>
+            <file>file:/E:/1ITI/23Java/Project/TicTacToe/XOGameServer/src/models/Player.java</file>
+            <file>file:/E:/1ITI/23Java/Project/TicTacToe/XOGameServer/src/xogameserver/FXMLDocumentController.java</file>
+            <file>file:/E:/1ITI/23Java/Project/TicTacToe/XOGameServer/src/services/RequestManager.java</file>
+            <file>file:/E:/1ITI/23Java/Project/TicTacToe/XOGameServer/src/services/AvailableActions.java</file>
+            <file>file:/E:/1ITI/23Java/Project/TicTacToe/XOGameServer/src/xogameserver/GameHandler.java</file>
+            <file>file:/E:/1ITI/23Java/Project/TicTacToe/XOGameServer/src/services/Database.java</file>
+            <file>file:/E:/1ITI/23Java/Project/TicTacToe/XOGameServer/src/services/ServerAction.java</file>
+            <file>file:/E:/1ITI/23Java/Project/TicTacToe/XOGameServer/src/models/Game.java</file>
+            <file>file:/E:/1ITI/23Java/Project/TicTacToe/XOGameServer/src/models/Match.java</file>
+        </group>
     </open-files>
 </project-private>
