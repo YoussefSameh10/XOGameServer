@@ -11,32 +11,27 @@ import static models.Mark.*;
  *
  * @author amin
  */
-/*
-
-//from socket to socket
-class Match{
-
-    private Board board ;
-    private player1Name ;
-    private player2Name ;
-    
-
+enum BoardStatus {
+    NotDetermined,
+    Row0,
+    Row1,
+    Row2,
+    Col0,
+    Col1,
+    Col2,
+    DiagonalTopLeftToBottomRight,
+    DiagonalTopRightToBottomLeft,
+    Tie
 }
 
-
-
-
-*/
-
-
-
-
 public class Board {
+
     private final Mark[][] board;
     private Mark winningMark;
     private final int BOARD_WIDTH = 3;
     private boolean crossTurn, gameOver;
     private int availableMoves = BOARD_WIDTH * BOARD_WIDTH;
+    private BoardStatus status =  BoardStatus.NotDetermined  ; 
 
     public Board() {
         board = new Mark[BOARD_WIDTH][BOARD_WIDTH];
@@ -89,6 +84,17 @@ public class Board {
         }
         if (calcWinner(rowSum) != BLANK) {
             System.out.println(winningMark + " wins on row " + row);
+            switch (row) {
+                case 0 :
+                    status = BoardStatus.Row0;
+                    break ;
+                case 1 :
+                      status = BoardStatus.Row1;
+                    break ;
+                case 2:
+                      status = BoardStatus.Row2;
+                    break ;
+            }
             return;
         }
 
@@ -99,6 +105,17 @@ public class Board {
         }
         if (calcWinner(rowSum) != BLANK) {
             System.out.println(winningMark + " wins on column " + col);
+                  switch (col) {
+                case 0 :
+                    status = BoardStatus.Col0;
+                    break ;
+                case 1 :
+                      status = BoardStatus.Col1;
+                    break ;
+                case 2:
+                      status = BoardStatus.Col2;
+                    break ;
+            }
             return;
         }
 
@@ -110,6 +127,7 @@ public class Board {
         if (calcWinner(rowSum) != BLANK) {
             System.out.println(winningMark + " wins on the top-left to "
                     + "bottom-right diagonal");
+            status =   BoardStatus.DiagonalTopLeftToBottomRight ;
             return;
         }
 
@@ -122,11 +140,13 @@ public class Board {
         if (calcWinner(rowSum) != BLANK) {
             System.out.println(winningMark + " wins on the top-right to "
                     + "bottom-left diagonal.");
+            status = BoardStatus.DiagonalTopRightToBottomLeft ;
             return;
         }
 
         if (!anyMovesAvailable()) {
             gameOver = true;
+            status = BoardStatus.Tie ;
             System.out.println("Tie!");
         }
     }
@@ -200,13 +220,18 @@ public class Board {
     public Mark getWinningMark() {
         return winningMark;
     }
-    
-    public void printGame(){
-        for(int i = 0 ; i< 3 ; i++){
-            for(int j =0 ; j<3;j++){
+
+    public void printGame() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
                 System.out.print(board[i][j].getMark() + "   ");
             }
             System.out.println("\n");
         }
     }
+    
+      public BoardStatus getBoardStatus(){
+        return status ;
+    }
+    
 }
