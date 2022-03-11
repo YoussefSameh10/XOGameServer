@@ -105,6 +105,9 @@ public class RequestManager {
                 gameHandler.setID(player.getID());
                 String respons = "LoginResponse,Success,"+player.getID()+","+player.getUsername()+","+player.getScore();
                 gameHandler.getPs().println(respons);
+                  for (GameHandler onlineClient : GameHandler.onlineClients) {
+                    onlineClient.getPs().println("GetOnlinePlayersListResponse," + getOnlinePlayersList());
+                }
             }else{
                 String respons = "LoginResponse,Failure";
                 gameHandler.getPs().println(respons);
@@ -146,28 +149,12 @@ public class RequestManager {
         }
         
         if (action instanceof GetOnlinePlayersList){
-            System.out.println("I am in the action of type GetOnlineList");
-            String usernames = "";
-            int noOfOnlineClients = GameHandler.onlineClients.size();
-            for (int i=0 ; i<noOfOnlineClients ; i++)
-            {
-                int currentPlayerID = GameHandler.onlineClients.get(i).getID();
-                int currentPlayerScore = db.getPlayerScore(currentPlayerID);
-                String currentPlayerUsername = db.getPlayerUsername(currentPlayerID);
-                if(!currentPlayerUsername.equals(""));
-                {
-                    if (i==0)
-                    {
-                        usernames = currentPlayerUsername + ":" + String.valueOf(currentPlayerID) + ":" +String.valueOf(currentPlayerScore);
-                    }
-                    else 
-                    {
-                        usernames = usernames + " " + currentPlayerUsername + ":" + String.valueOf(currentPlayerID) + ":" + String.valueOf(currentPlayerScore);
-                    }
-                }
-            }
+          System.out.println("I am in the action of type GetOnlineList");
+            String usernames = getOnlinePlayersList();
+            
             String respons ="GetOnlinePlayersListResponse," + usernames ;
            gameHandler.getPs().println(respons);
+            
         }
          if(action instanceof ChallengeRequest){
             System.out.println("i am in processhhhhhhhhhhhhhh  "+((ChallengeRequest) action).id1+((ChallengeRequest) action).id2);
@@ -197,5 +184,27 @@ public class RequestManager {
         
        
     }
-    
+      public String getOnlinePlayersList()
+    {
+        String users = "";
+        int noOfOnlineClients = GameHandler.onlineClients.size();
+        for (int i=0 ; i<noOfOnlineClients ; i++)
+        {
+            int currentPlayerID = GameHandler.onlineClients.get(i).getID();
+            int currentPlayerScore = db.getPlayerScore(currentPlayerID);
+            String currentPlayerUsername = db.getPlayerUsername(currentPlayerID);
+            if(!currentPlayerUsername.equals(""));
+            {
+                if (i==0)
+                {
+                    users = currentPlayerUsername + ":" + String.valueOf(currentPlayerID) + ":" +String.valueOf(currentPlayerScore);
+                }
+                else 
+                {
+                    users = users + " " + currentPlayerUsername + ":" + String.valueOf(currentPlayerID) + ":" + String.valueOf(currentPlayerScore);
+                }
+            }
+        }
+        return users;
+    }
 }

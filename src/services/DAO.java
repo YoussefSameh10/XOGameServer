@@ -62,7 +62,6 @@ public class DAO implements Database {
             statement.executeUpdate();
             return true;         
         } catch (SQLException ex) {
-            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }

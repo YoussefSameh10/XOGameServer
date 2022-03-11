@@ -213,8 +213,8 @@ public class GameHandler extends Thread {
                 }
 
             } else if (match.getBoard().getWinningMark() == Mark.O) {
-                    
-                  if (isGameStarter) {
+
+                if (isGameStarter) {
                     this.ps.println("GameResult,Lose," + match.getBoard().getBoardStatus());
                     for (GameHandler gh : GameHandler.inGameClients) {
                         if (gh.getID() == playerTwoId) {
@@ -222,7 +222,7 @@ public class GameHandler extends Thread {
                             gh.ps.println("GameResult,Win," + match.getBoard().getBoardStatus());
                             gh.match = null;
                             match = null;
-                            
+
                         }
                     }
                 } else {
@@ -231,26 +231,24 @@ public class GameHandler extends Thread {
                         if (gh.getID() == playerTwoId) {
                             gh.match = match;
                             gh.ps.println("GameResult,Lose," + match.getBoard().getBoardStatus());
-                            gh.match = null ;
+                            gh.match = null;
                             match = null;
-                                
+
                         }
                     }
 
                 }
-                
-                
-                
+
             } else {
-                               this.ps.println("GameResult,TIE," + match.getBoard().getBoardStatus());
-                    for (GameHandler gh : GameHandler.onlineClients) {
-                        if (gh.getID() == playerTwoId) {
-                            gh.match = match;
-                            gh.ps.println("GameResult,TIE," + match.getBoard().getBoardStatus());
-                            gh.match = null ;
-                            match = null;
-                        }
+                this.ps.println("GameResult,TIE," + match.getBoard().getBoardStatus());
+                for (GameHandler gh : GameHandler.onlineClients) {
+                    if (gh.getID() == playerTwoId) {
+                        gh.match = match;
+                        gh.ps.println("GameResult,TIE," + match.getBoard().getBoardStatus());
+                        gh.match = null;
+                        match = null;
                     }
+                }
             }
         }
 
@@ -266,99 +264,99 @@ public class GameHandler extends Thread {
         }
 
     }
-    
-    public void getPlayerFromonlineVector(String id1,String id2,String name1,String name2,String score1,String score2){
-        for(int i = 0; i < GameHandler.onlineClients.size(); i++){
-            if(GameHandler.onlineClients.get(i).ID == Integer.parseInt(id2)){
+
+    public void getPlayerFromonlineVector(String id1, String id2, String name1, String name2, String score1, String score2) {
+        for (int i = 0; i < GameHandler.onlineClients.size(); i++) {
+            if (GameHandler.onlineClients.get(i).ID == Integer.parseInt(id2)) {
                 System.out.println("serch for challangggggggggggggggggggggggwwwwwwwwwwwwwww");
-                 GameHandler.onlineClients.get(i).ps.println("ChallengeRequest,"+id1+","+id2+","+name1+","+name2+","+score1+","+score2+",true");
-                 
-                 System.out.println(GameHandler.onlineClients.get(i).ps);
-                   System.out.println("index = "+i);
+                GameHandler.onlineClients.get(i).ps.println("ChallengeRequest," + id1 + "," + id2 + "," + name1 + "," + name2 + "," + score1 + "," + score2 + ",true");
+
+                System.out.println(GameHandler.onlineClients.get(i).ps);
+                System.out.println("index = " + i);
             }
         }
-        System.out.println("the number of onlineClient"+GameHandler.onlineClients.size());
+        System.out.println("the number of onlineClient" + GameHandler.onlineClients.size());
 
     }
-            
-    public void closeConnections(){
+
+    public void closeConnections() {
         onlineClients.remove(this);
         System.out.println("from server: i closed the connection");
-        try{
-            if(this.dis != null){
+        try {
+            if (this.dis != null) {
                 this.dis.close();
             }
-            if(this.ps != null){
+            if (this.ps != null) {
                 this.ps.close();
             }
-        }catch (IOException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public void replyonPlayer(String s ,String id1,String id2,String name1,String name2,String score1,String score2){
+
+    public void replyonPlayer(String s, String id1, String id2, String name1, String name2, String score1, String score2) {
         System.out.println("insiddddddddddddddddoooottttttttttto");
-        int index1= -1
-                ,index2 = -1;
-        if(s.equals("accept")){
+        int index1 = -1, index2 = -1;
+        if (s.equals("accept")) {
             System.out.println("insiddddddddddddddddf");
-            for(int i = 0; i < GameHandler.onlineClients.size(); i++){
-               
-                System.out.println("the number of players"+onlineClients.size());
-                System.out.println("the plyers idessssssssss"+id1+id2);
-                System.out.println("id playerssssssssssssss"+GameHandler.onlineClients.get(i).ID);
-                if(GameHandler.onlineClients.get(i).ID == Integer.parseInt(id1) ){
+            for (int i = 0; i < GameHandler.onlineClients.size(); i++) {
+
+                System.out.println("the number of players" + onlineClients.size());
+                System.out.println("the plyers idessssssssss" + id1 + id2);
+                System.out.println("id playerssssssssssssss" + GameHandler.onlineClients.get(i).ID);
+                if (GameHandler.onlineClients.get(i).ID == Integer.parseInt(id1)) {
                     System.out.println("hereacceeeeeeeeeeppppttt");
-                    System.out.println("the sender iddd"+GameHandler.onlineClients.get(i).ID );
-                   GameHandler.onlineClients.get(i).ps.println("ChallengeResponse,"+s+","+id1+","+id2+","+name1+","+name2+","+score1+","+score2+",false");
-                  index1 = i;
-                  
-                  
+                    System.out.println("the sender iddd" + GameHandler.onlineClients.get(i).ID);
+                    GameHandler.onlineClients.get(i).ps.println("ChallengeResponse," + s + "," + id1 + "," + id2 + "," + name1 + "," + name2 + "," + score1 + "," + score2 + ",false");
+                    index1 = i;
+
                 }
-                  if(GameHandler.onlineClients.get(i).ID == Integer.parseInt(id2)){
-                    index2=i;
-                  }
-                  
-                  
+                if (GameHandler.onlineClients.get(i).ID == Integer.parseInt(id2)) {
+                    index2 = i;
+                }
+
             }
-             GameHandler.inGameClients.add(GameHandler.onlineClients.get(index1));
-                   GameHandler.onlineClients.remove(index1);
-                    GameHandler.inGameClients.add(GameHandler.onlineClients.get(index2));
-                   GameHandler.onlineClients.remove(index2);
-        
-        }else if (s.equals("notAccept")){
-             System.out.println("serverrrrrrrrrrrnnnnnnnnnnotaccepttttttttttttttttttt");
-             for(int i = 0; i < GameHandler.onlineClients.size(); i++){
-                if(GameHandler.onlineClients.get(i).ID == Integer.parseInt(id1)){
-                    System.out.println( GameHandler.onlineClients.get(i).ID);
-                   GameHandler.onlineClients.get(i).ps.println("ChallengeResponse,"+s+","+id1+","+id2+","+name1+","+name2+","+score1+","+score2+",false");
+            GameHandler p1 = GameHandler.onlineClients.get(index1) ;
+            GameHandler p2 = GameHandler.onlineClients.get(index2) ;
+            GameHandler.inGameClients.add(p1);
+            GameHandler.inGameClients.add(p2);
+            GameHandler.onlineClients.remove(p1);
+            GameHandler.onlineClients.remove(p2);
+
+        } else if (s.equals("notAccept")) {
+            System.out.println("serverrrrrrrrrrrnnnnnnnnnnotaccepttttttttttttttttttt");
+            for (int i = 0; i < GameHandler.onlineClients.size(); i++) {
+                if (GameHandler.onlineClients.get(i).ID == Integer.parseInt(id1)) {
+                    System.out.println(GameHandler.onlineClients.get(i).ID);
+                    GameHandler.onlineClients.get(i).ps.println("ChallengeResponse," + s + "," + id1 + "," + id2 + "," + name1 + "," + name2 + "," + score1 + "," + score2 + ",false");
                 }
-             }
+            }
         }
     }
 
     @Override
     public void run() {
         while (true) {
-            
+
             try {
                 //y2ra el string w y7wlo l msg ll client
                 String msg = dis.readLine();
-                if(msg != null){
+                if (msg != null) {
                     ServerAction action = requestManager.parse(msg);
                     requestManager.process(action, this);
                     // String response =
                     /*
                         for loop over all online players to end the  move to the right player
                      */
-                   // ps.println(response);
-                }else{
+                    // ps.println(response);
+                } else {
                     System.out.println("CAN'T PARSE");
                 }
             } catch (IOException ex) {
                 closeConnections();
                 break;
             }
-       }
+        }
     }
 
 }
