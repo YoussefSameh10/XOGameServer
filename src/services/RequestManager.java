@@ -91,15 +91,23 @@ public class RequestManager {
             }
         }
         if(action instanceof Login){
+            boolean isLogged = false;
             Player player = db.loginPlayer(((Login) action).userName, ((Login) action).password);
-            if(player != null){
+                for(GameHandler gh : GameHandler.onlineClients){
+                    if(player != null && (player.getID() == gh.getID())){
+                    //(player.getID() != GameHandler.onlineClients.indexOf(gameHandler))
+                    isLogged = true;
+                    break;
+                }
+            }
+            if(player != null && isLogged == false){
                 GameHandler.addOnlinePlayer(gameHandler);
                 gameHandler.setID(player.getID());
                 String respons = "LoginResponse,Success,"+player.getID()+","+player.getUsername()+","+player.getScore();
                 gameHandler.getPs().println(respons);
             }else{
                 String respons = "LoginResponse,Failure";
-                 gameHandler.getPs().println(respons);
+                gameHandler.getPs().println(respons);
                // return "LoginResponse,Failure";
             }
         }

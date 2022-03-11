@@ -95,6 +95,7 @@ public class GameHandler extends Thread {
 
     public void setID(int ID) {
         this.ID = ID;
+        System.out.println("the game handler id in setID = " + ID);
     }
 
     public static void addInGamePlayer(GameHandler inGamePlayer) {
