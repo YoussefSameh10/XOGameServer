@@ -54,7 +54,7 @@ public class DAO implements Database {
                 id = 0; // lw mafi4 players ma3nah en el db fadya ezn id 0
             }
             
-            PreparedStatement statement = con.prepareStatement("INSERT INTO PLAYER VALUES (?, ?, ?, ?)");
+            PreparedStatement statement = con.prepareStatement("INSERT INTO PLAYERS VALUES (?, ?, ?, ?)");
             statement.setInt(1, id);
             statement.setString(2, username);
             statement.setString(3, password);
@@ -82,7 +82,7 @@ public class DAO implements Database {
         System.out.println(username);
         System.out.println(password);
         try{
-            PreparedStatement statement = con.prepareStatement("SELECT * FROM PLAYER WHERE USERNAME=? AND PASSWORD=?");
+            PreparedStatement statement = con.prepareStatement("SELECT * FROM PLAYERS WHERE USERNAME=? AND PASSWORD=?");
             statement.setString(1, username);
             statement.setString(2, password);
             
@@ -110,7 +110,7 @@ public class DAO implements Database {
         System.out.println("Client Closed "+id);
         
         try{
-            PreparedStatement statement = con.prepareStatement("SELECT * FROM PLAYER WHERE ID=?");
+            PreparedStatement statement = con.prepareStatement("SELECT * FROM PLAYERS WHERE ID=?");
             statement.setInt(1, id);
             rs = statement.executeQuery();
            if(rs.next()){
@@ -132,7 +132,7 @@ public class DAO implements Database {
     {
         ResultSet rs;
         try{
-            PreparedStatement statement = con.prepareStatement("SELECT * FROM PLAYER WHERE ID=?");
+            PreparedStatement statement = con.prepareStatement("SELECT * FROM PLAYERS WHERE ID=?");
             statement.setInt(1, ID);
             rs = statement.executeQuery();
             if (rs.next()){
@@ -152,7 +152,7 @@ public class DAO implements Database {
     {
         ResultSet rs;
         try{
-            PreparedStatement statement = con.prepareStatement("SELECT * FROM PLAYER WHERE ID=?");
+            PreparedStatement statement = con.prepareStatement("SELECT * FROM PLAYERS WHERE ID=?");
             statement.setInt(1, ID);
             rs = statement.executeQuery();
             if (rs.next()){
