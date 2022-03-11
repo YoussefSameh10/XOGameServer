@@ -189,18 +189,23 @@ public class GameHandler extends Thread {
             if (match.getBoard().getWinningMark() == Mark.X) {
                 if (isGameStarter) {
                     this.ps.println("GameResult,Win," + match.getBoard().getBoardStatus());
-                    for (GameHandler gh : GameHandler.onlineClients) {
+                    for (GameHandler gh : GameHandler.inGameClients) {
                         if (gh.getID() == playerTwoId) {
                             gh.match = match;
                             gh.ps.println("GameResult,Lose," + match.getBoard().getBoardStatus());
+                            gh.match = null;
+                            match = null;
                         }
                     }
                 } else {
                     this.ps.println("GameResult,Lose," + match.getBoard().getBoardStatus());
-                    for (GameHandler gh : GameHandler.onlineClients) {
+                    for (GameHandler gh : GameHandler.inGameClients) {
                         if (gh.getID() == playerTwoId) {
                             gh.match = match;
                             gh.ps.println("GameResult,Win," + match.getBoard().getBoardStatus());
+                            gh.match = null;
+                            match = null;
+
                         }
                     }
 
@@ -210,10 +215,13 @@ public class GameHandler extends Thread {
                     
                   if (isGameStarter) {
                     this.ps.println("GameResult,Lose," + match.getBoard().getBoardStatus());
-                    for (GameHandler gh : GameHandler.onlineClients) {
+                    for (GameHandler gh : GameHandler.inGameClients) {
                         if (gh.getID() == playerTwoId) {
                             gh.match = match;
                             gh.ps.println("GameResult,Win," + match.getBoard().getBoardStatus());
+                            gh.match = null;
+                            match = null;
+                            
                         }
                     }
                 } else {
@@ -222,6 +230,9 @@ public class GameHandler extends Thread {
                         if (gh.getID() == playerTwoId) {
                             gh.match = match;
                             gh.ps.println("GameResult,Lose," + match.getBoard().getBoardStatus());
+                            gh.match = null ;
+                            match = null;
+                                
                         }
                     }
 
@@ -235,12 +246,11 @@ public class GameHandler extends Thread {
                         if (gh.getID() == playerTwoId) {
                             gh.match = match;
                             gh.ps.println("GameResult,TIE," + match.getBoard().getBoardStatus());
+                            gh.match = null ;
+                            match = null;
                         }
                     }
             }
-
-            System.out.println(match.getBoard().getWinningMark());
-            System.out.println(match.getBoard().getBoardStatus());
         }
 
     }
