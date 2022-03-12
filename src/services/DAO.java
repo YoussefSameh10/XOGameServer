@@ -257,7 +257,7 @@ public class DAO implements Database {
                 String gameRec = rs.getString(4);
                 String player1Name = getPlayerUsername(rs.getInt(2));
                 String player2Name = getPlayerUsername(rs.getInt(3));
-                result.append(gameRec +","+player1Name+"vs"+player2Name+"$");
+                result.append(gameRec +":"+player1Name+" vs "+player2Name+"$");
             }
             return  result.substring(0, result.length()-1);
         } catch (SQLException ex) {
