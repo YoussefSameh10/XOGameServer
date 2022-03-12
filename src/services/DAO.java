@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.Player;
 import org.apache.derby.jdbc.ClientDriver;
+import xogameserver.FXMLDocumentController;
 
 /**
  *
@@ -29,8 +30,13 @@ public class DAO implements Database {
         try {
             DriverManager.registerDriver(new ClientDriver());
             con = DriverManager.getConnection("jdbc:derby://localhost:1527/XOGame", "root", "root");
+            if (con ==null || con.isClosed()) {
+                FXMLDocumentController.showAlertForError("Database Connection Error!");
+            }
         } catch (SQLException ex) {
-            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+            FXMLDocumentController.showAlertForError("Database Connection Error!");
+            System.out.println("Hellooooooooooo ya gama3a");
+            //Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -59,6 +65,7 @@ public class DAO implements Database {
             statement.executeUpdate();
             return true;
         } catch (SQLException ex) {
+            FXMLDocumentController.showAlertForError("Database Error!\nCan't Register Player");
             return false;
         }
     }
@@ -95,7 +102,8 @@ public class DAO implements Database {
                 return null;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+            FXMLDocumentController.showAlertForError("Database Error!\nCan't Login Player");
+            //Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
 
@@ -118,7 +126,8 @@ public class DAO implements Database {
                 return -1;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+            FXMLDocumentController.showAlertForError("Database Error!\nCan't close player connection");
+            //Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
             return -1;
         }
 
@@ -137,7 +146,8 @@ public class DAO implements Database {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+            FXMLDocumentController.showAlertForError("Database Error!\nCan't get player's user name");
+            //Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
             return "";
         }
         return "";
@@ -156,7 +166,8 @@ public class DAO implements Database {
             }
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            FXMLDocumentController.showAlertForError("Database Error!\nCan't get player's score");
+            //ex.printStackTrace();
             return -1;
         }
         return -1;
@@ -166,15 +177,17 @@ public class DAO implements Database {
     public int getNoOfPlayersInServer() {
         int cnt = 0;
         ResultSet rs;
-        try {
-            PreparedStatement statement = con.prepareStatement("SELECT * FROM PLAYERS");
+        PreparedStatement statement;
+        try{
+            statement = con.prepareStatement("SELECT * FROM PLAYERS");
             rs = statement.executeQuery();
-            while (rs.next()) {
+            while(rs.next()){
                 cnt++;
             }
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            FXMLDocumentController.showAlertForError("Database Error!\nCan't get No. of players in server right now!");
+            //ex.printStackTrace();
             return 0;
         }
         return cnt;
