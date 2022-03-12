@@ -29,4 +29,6 @@ public interface Database {
     public int IncreasePlayerScore(int ID);
 
     public boolean saveGameMoves(int playerOneId, int playerTwoId, String gameMoves);
+    
+    public String getMyGames(int ID);
 }

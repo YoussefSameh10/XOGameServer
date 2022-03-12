@@ -74,3 +74,13 @@ class ClientClose implements ServerAction {
         
     }
 }
+
+
+class GetMyGames implements ServerAction {
+    int senderId;
+    
+    public GetMyGames(int senderId){
+        this.senderId = senderId;
+    
+    }
+}

@@ -73,6 +73,11 @@ public class RequestManager {
             
             return new ChallengeResponse(challangeRespons,id1,id2);
         }
+             if(AvailableActions.GetMyGames.getString().equals(parts[0])){
+            String id1 =  parts[1];
+            int id = Integer.parseInt(id1);
+            return new GetMyGames (id);
+        }
         return new Register("x", "y");
     }
     
@@ -200,7 +205,15 @@ public class RequestManager {
             String respons =((ChallengeResponse) action).respons;
            gameHandler.replyonPlayer( respons,((ChallengeResponse) action).id1,((ChallengeResponse) action).id2,name1,name2,score1,score2);
          }
-        
+             if (action instanceof GetMyGames){
+          System.out.println("Get My Games");
+          
+            String response = db.getMyGames(((GetMyGames) action).senderId);
+            
+           String respons ="GetMyGamesResponse," + response ;
+           gameHandler.getPs().println(respons);
+            
+        }
        
     }
       public String getOnlinePlayersList()

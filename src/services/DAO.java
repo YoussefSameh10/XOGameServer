@@ -231,4 +231,26 @@ public class DAO implements Database {
         return games;
     }
 
+    @Override
+    public String getMyGames(int ID) {
+        ResultSet rs;
+        try {
+            StringBuffer result = new StringBuffer();
+            PreparedStatement statement = con.prepareStatement("SELECT * FROM GAME WHERE PLAYER1ID=? OR PLAYER2ID=?");
+            statement.setInt(1, ID);
+            statement.setInt(2, ID);
+            rs = statement.executeQuery();
+            while (rs.next()) {
+                String gameRec = rs.getString(4);
+                String player1Name = getPlayerUsername(rs.getInt(2));
+                String player2Name = getPlayerUsername(rs.getInt(3));
+                result.append(gameRec +","+player1Name+"vs"+player2Name+"$");
+            }
+            return  result.substring(0, result.length()-1);
+        } catch (SQLException ex) {
+            Logger.getLogger(DAO.class.getName()).log(Level.SEVERE, null, ex);
+            return "";
+        }
+    }
+
 }
