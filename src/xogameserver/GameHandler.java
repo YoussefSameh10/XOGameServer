@@ -55,10 +55,11 @@ public class GameHandler extends Thread {
                 dis.close();
                 requestManager.updateAllPlayersListForAllPlayers();
                 System.out.println("Game Handler Initializer !!");
-
-                Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex);
+                FXMLDocumentController.showAlertForError("Server Error!!\nCan't close server!!");
+                //Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex1) {
-                Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex1);
+                FXMLDocumentController.showAlertForError("Server Error!!\nCan't close server!!");
+                //Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex1);
             }
         }
     }
@@ -293,7 +294,8 @@ public class GameHandler extends Thread {
                 this.ps.close();
             }
         } catch (IOException ex) {
-            Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex);
+            FXMLDocumentController.showAlertForError("Server Error!!\nCan't close server!!");
+            //Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

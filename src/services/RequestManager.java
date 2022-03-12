@@ -7,7 +7,11 @@ package services;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.Alert;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import models.Player;
+import xogameserver.FXMLDocumentController;
 import xogameserver.GameHandler;
 /**
  *
@@ -125,7 +129,8 @@ public class RequestManager {
                         gameHandler.getDis().close();
                         gameHandler.getPs().close();
                     } catch (IOException ex) {
-                        Logger.getLogger(RequestManager.class.getName()).log(Level.SEVERE, null, ex);
+                        FXMLDocumentController.showAlertForError("Server Error!\nCan't close connection for logged in users!");
+                        //Logger.getLogger(RequestManager.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
@@ -137,7 +142,8 @@ public class RequestManager {
                         gameHandler.getDis().close();
                         gameHandler.getPs().close();
                     } catch (IOException ex) {
-                        Logger.getLogger(RequestManager.class.getName()).log(Level.SEVERE, null, ex);
+                        FXMLDocumentController.showAlertForError("Server Error!\nCan't close connection for logged in users!");
+                        //Logger.getLogger(RequestManager.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }

@@ -23,9 +23,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.PieChart.Data;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import services.DAO;
 import services.Database;
 import services.ServerAction;
@@ -56,6 +59,8 @@ public class FXMLDocumentController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        System.out.println("db is : " + db);
+        
         refreshData();
     }
     
@@ -93,14 +98,16 @@ public class FXMLDocumentController implements Initializable {
                            Socket s = serverSocket.accept();
                            new GameHandler(s);
                        } catch (IOException ex) {
-                           Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+                           showAlertForError("Server Error!!\nCan't start server!!");
+                           //Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
                        }
                     } 
                 }
             }.start();
             
         } catch (IOException ex) {
-            Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            showAlertForError("Server Error!!\nCan't start server!!");
+            //Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
         startButton.setDisable(true);
         stopButton.setDisable(false);
@@ -130,5 +137,17 @@ public class FXMLDocumentController implements Initializable {
         );
         
         playersPieChart.setData(list);
+    }
+    public static void showAlertForError(String msg){
+        //Stage stg = (Stage) refreshButton.getScene().getWindow();
+        Alert.AlertType type = Alert.AlertType.INFORMATION;
+        Alert alert = new Alert(type);
+
+        alert.initModality(Modality.WINDOW_MODAL);
+        //alert.initOwner(stg);
+        alert.setTitle("Information !");
+        alert.getDialogPane().setContentText(msg);
+        alert.setHeaderText("Information");
+        alert.showAndWait();
     }
 }
