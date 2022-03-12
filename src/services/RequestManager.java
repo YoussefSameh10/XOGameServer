@@ -105,9 +105,10 @@ public class RequestManager {
                 gameHandler.setID(player.getID());
                 String respons = "LoginResponse,Success,"+player.getID()+","+player.getUsername()+","+player.getScore();
                 gameHandler.getPs().println(respons);
-                  for (GameHandler onlineClient : GameHandler.onlineClients) {
-                    onlineClient.getPs().println("GetOnlinePlayersListResponse," + getOnlinePlayersList());
-                }
+//                for (GameHandler onlineClient : GameHandler.onlineClients) {
+//                    onlineClient.getPs().println("GetOnlinePlayersListResponse," + getOnlinePlayersList());
+//                }
+                updateAllPlayersListForAllPlayers();
             }else{
                 String respons = "LoginResponse,Failure";
                 gameHandler.getPs().println(respons);
@@ -117,8 +118,9 @@ public class RequestManager {
         if(action instanceof ClientClose){
             boolean isOnlineClient = false;
             for(GameHandler gh : GameHandler.onlineClients){
-                isOnlineClient = true;
+                
                 if(gh.getID() == gameHandler.getID()){
+                    isOnlineClient = true;
                     try {
                         gameHandler.getDis().close();
                         gameHandler.getPs().close();
@@ -128,8 +130,9 @@ public class RequestManager {
                 }
             }
             for(GameHandler gh : GameHandler.inGameClients){
-                isOnlineClient = false;
+                
                 if(gh.getID() == gameHandler.getID()){
+                    isOnlineClient = false;
                     try {
                         gameHandler.getDis().close();
                         gameHandler.getPs().close();
@@ -138,11 +141,18 @@ public class RequestManager {
                     }
                 }
             }
+            
+            
             if(isOnlineClient){
+                System.out.println("Removing player from onlineClients vector");
                 GameHandler.onlineClients.remove(gameHandler);
             }else{
+                System.out.println("Removing player from inGameClients vector");
                 GameHandler.inGameClients.remove(gameHandler);
+                
             }
+            System.out.println("I reached end of client close !!");
+            updateAllPlayersListForAllPlayers();
         }
     
          if(action instanceof Move){
@@ -215,5 +225,13 @@ public class RequestManager {
             }
         }
         return users;
+    }
+    public void updateAllPlayersListForAllPlayers()
+    {
+        System.out.println("Online Players: " + GameHandler.onlineClients.size());
+        System.out.println("In-Game Players: " + GameHandler.inGameClients.size());
+        for (GameHandler onlineClient : GameHandler.onlineClients) {
+                    onlineClient.getPs().println("GetOnlinePlayersListResponse," + getOnlinePlayersList());
+        }
     }
 }

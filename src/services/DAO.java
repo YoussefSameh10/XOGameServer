@@ -166,4 +166,26 @@ public class DAO implements Database {
         }
         return -1;
     }
+    
+    @Override
+    public int getNoOfPlayersInServer()
+    {
+        int cnt = 0;
+        ResultSet rs;
+        try{
+            PreparedStatement statement = con.prepareStatement("SELECT * FROM PLAYERS");
+            rs = statement.executeQuery();
+            while(rs.next())
+            {
+                cnt++;
+            }
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return 0;
+        }
+        return cnt;
+    }
+
+    
 }

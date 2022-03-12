@@ -13,6 +13,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -27,6 +28,10 @@ public class XOGameServer extends Application {
         FXMLDocumentController controller = new FXMLDocumentController();
         
         Scene scene = new Scene(root);
+        Image icon = new Image("assets/app-icon-xo.png");
+        stage.getIcons().add(icon);
+        stage.setTitle("Server Status");
+        stage.setResizable(false);
         stage.setOnCloseRequest((event) -> {
             controller.didCloseServer();
             Platform.exit();
