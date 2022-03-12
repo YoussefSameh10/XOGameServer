@@ -45,6 +45,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void startServer(ActionEvent event) {
         System.out.println("start");
+        
         // Running Server
         try {
             serverSocket = new ServerSocket(8080);
@@ -65,6 +66,7 @@ public class FXMLDocumentController implements Initializable {
             Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
         startButton.setDisable(true);
+        startButton.setOpacity(0.6);
         stopButton.setDisable(false);
     }
 
@@ -72,6 +74,7 @@ public class FXMLDocumentController implements Initializable {
     private void stopServer(ActionEvent event) {
         startButton.setDisable(false);
         stopButton.setDisable(true);
+        stopButton.setOpacity(0.6);
         System.out.println("stops");
         didCloseServer();
         Platform.exit();
