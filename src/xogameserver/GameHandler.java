@@ -22,6 +22,8 @@ import services.ChallengeResponse;
 import services.RequestManager;
 import services.ServerAction;
 import static models.Mark.*;
+import services.DAO;
+import services.Database;
 
 /**
  *
@@ -37,9 +39,12 @@ public class GameHandler extends Thread {
     RequestManager requestManager;
     private Match match;
     private boolean isGameStarter = false;
+    private Database db;
+    StringBuffer gameRec = new StringBuffer("");
 
     public GameHandler(Socket cs) {
         requestManager = RequestManager.getInstance();
+        db = DAO.getInstance();
         try {
             dis = new DataInputStream(cs.getInputStream());
             ps = new PrintStream(cs.getOutputStream());
@@ -110,10 +115,13 @@ public class GameHandler extends Thread {
     }
 
     public void playMove(int cellNumber, int playerTwoId) {
+        //gameRec
+        //if iam the game starteer i play with x
         switch (cellNumber) {
             case 0:
                 boolean b1 = match.getBoard().placeMark(0, 0);
                 match.getBoard().printGame();
+                gameRec.append(isGameStarter ? "X" + 0 : "O" + 0);
                 if (b1) {
                     forwardMoveToOpponent(playerTwoId, cellNumber);
                 }
@@ -123,6 +131,8 @@ public class GameHandler extends Thread {
             case 1:
                 boolean b2 = match.getBoard().placeMark(0, 1);
                 match.getBoard().printGame();
+                gameRec.append(isGameStarter ? "X" + 1 : "O" + 1);
+
                 if (b2) {
                     forwardMoveToOpponent(playerTwoId, cellNumber);
                 }
@@ -131,6 +141,8 @@ public class GameHandler extends Thread {
             case 2:
                 boolean b3 = match.getBoard().placeMark(0, 2);
                 match.getBoard().printGame();
+                gameRec.append(isGameStarter ? "X" + 2 : "O" + 2);
+
                 if (b3) {
                     forwardMoveToOpponent(playerTwoId, cellNumber);
                 }
@@ -139,6 +151,8 @@ public class GameHandler extends Thread {
             case 3:
                 boolean b4 = match.getBoard().placeMark(1, 0);
                 match.getBoard().printGame();
+                gameRec.append(isGameStarter ? "X" + 3 : "O" + 3);
+
                 if (b4) {
                     forwardMoveToOpponent(playerTwoId, cellNumber);
                 }
@@ -147,6 +161,8 @@ public class GameHandler extends Thread {
             case 4:
                 boolean b5 = match.getBoard().placeMark(1, 1);
                 match.getBoard().printGame();
+                gameRec.append(isGameStarter ? "X" + 4 : "O" + 4);
+
                 if (b5) {
                     forwardMoveToOpponent(playerTwoId, cellNumber);
                 }
@@ -155,6 +171,8 @@ public class GameHandler extends Thread {
             case 5:
                 boolean b6 = match.getBoard().placeMark(1, 2);
                 match.getBoard().printGame();
+                gameRec.append(isGameStarter ? "X" + 5 : "O" + 5);
+
                 if (b6) {
                     forwardMoveToOpponent(playerTwoId, cellNumber);
                 }
@@ -163,6 +181,8 @@ public class GameHandler extends Thread {
             case 6:
                 boolean b7 = match.getBoard().placeMark(2, 0);
                 match.getBoard().printGame();
+                gameRec.append(isGameStarter ? "X" + 6 : "O" + 6);
+
                 if (b7) {
                     forwardMoveToOpponent(playerTwoId, cellNumber);
                 }
@@ -171,6 +191,8 @@ public class GameHandler extends Thread {
             case 7:
                 boolean b8 = match.getBoard().placeMark(2, 1);
                 match.getBoard().printGame();
+                gameRec.append(isGameStarter ? "X" + 7 : "O" + 7);
+
                 if (b8) {
                     forwardMoveToOpponent(playerTwoId, cellNumber);
                 }
@@ -179,6 +201,8 @@ public class GameHandler extends Thread {
             case 8:
                 boolean b9 = match.getBoard().placeMark(2, 2);
                 match.getBoard().printGame();
+                gameRec.append(isGameStarter ? "X" + 8 : "O" + 8);
+
                 if (b9) {
                     forwardMoveToOpponent(playerTwoId, cellNumber);
                 }
@@ -187,16 +211,25 @@ public class GameHandler extends Thread {
             default:
                 System.out.println("Default value in play move switch");
         }
+        System.out.println(gameRec);
 
         if (match.getBoard().isGameOver()) {
             System.out.println("In GAME HANDLER RESULT");
+            //save player1  id  (starter)  save player2 id save game record save boolean false
             if (match.getBoard().getWinningMark() == Mark.X) {
                 if (isGameStarter) {
                     this.ps.println("GameResult,Win," + match.getBoard().getBoardStatus());
+                    this.db.IncreasePlayerScore(ID);
+
                     for (GameHandler gh : GameHandler.inGameClients) {
                         if (gh.getID() == playerTwoId) {
                             gh.match = match;
                             gh.ps.println("GameResult,Lose," + match.getBoard().getBoardStatus());
+
+                            //   save myId as player1 ID , save gh.getID as player2 ID save game rec 
+                            db.saveGameMoves(ID, gh.getID(), gameRec.toString());
+                            gh.gameRec = new StringBuffer();
+                            gameRec = new StringBuffer();
                             gh.match = null;
                             match = null;
                         }
@@ -207,6 +240,11 @@ public class GameHandler extends Thread {
                         if (gh.getID() == playerTwoId) {
                             gh.match = match;
                             gh.ps.println("GameResult,Win," + match.getBoard().getBoardStatus());
+                            this.db.IncreasePlayerScore(gh.getID());
+                            //   save  gh.getIDas player1 ID ,save  myId  as player2 ID save game rec 
+                            db.saveGameMoves(gh.getID(), ID, gameRec.toString());
+                            gh.gameRec = new StringBuffer();
+                            gameRec = new StringBuffer();
                             gh.match = null;
                             match = null;
 
@@ -223,6 +261,11 @@ public class GameHandler extends Thread {
                         if (gh.getID() == playerTwoId) {
                             gh.match = match;
                             gh.ps.println("GameResult,Win," + match.getBoard().getBoardStatus());
+                            //   save myId as player1 ID , save gh.getID as player2 ID save game rec 
+                            db.saveGameMoves(ID, gh.getID(), gameRec.toString());
+
+                            gh.gameRec = new StringBuffer();
+                            gameRec = new StringBuffer();
                             gh.match = null;
                             match = null;
 
@@ -234,6 +277,11 @@ public class GameHandler extends Thread {
                         if (gh.getID() == playerTwoId) {
                             gh.match = match;
                             gh.ps.println("GameResult,Lose," + match.getBoard().getBoardStatus());
+                            //   save  gh.getIDas player1 ID ,save  myId  as player2 ID save game rec 
+                            db.saveGameMoves(gh.getID(), ID, gameRec.toString());
+
+                            gh.gameRec = new StringBuffer();
+                            gameRec = new StringBuffer();
                             gh.match = null;
                             match = null;
 
@@ -244,12 +292,23 @@ public class GameHandler extends Thread {
 
             } else {
                 this.ps.println("GameResult,TIE," + match.getBoard().getBoardStatus());
-                for (GameHandler gh : GameHandler.onlineClients) {
+                for (GameHandler gh : GameHandler.inGameClients) {
                     if (gh.getID() == playerTwoId) {
+                        if (isGameStarter) {
+                            System.out.println("IN TIE 1");
+                            db.saveGameMoves(ID, gh.getID(), gameRec.toString());
+                        } else {
+                                                        System.out.println("IN TIE 2");
+
+                            db.saveGameMoves(gh.getID(), ID, gameRec.toString());
+                        }
+
                         gh.match = match;
                         gh.ps.println("GameResult,TIE," + match.getBoard().getBoardStatus());
                         gh.match = null;
                         match = null;
+                        gh.gameRec = new StringBuffer();
+                        gameRec = new StringBuffer();
                     }
                 }
             }
@@ -261,6 +320,7 @@ public class GameHandler extends Thread {
         for (GameHandler gh : GameHandler.inGameClients) {
             if (gh.getID() == opponentId) {
                 gh.match = match;
+                gh.gameRec = gameRec;
                 System.out.println("Found opponent ");
                 gh.ps.println("Move," + ID + "," + opponentId + "," + cellNumber);
             }
@@ -319,8 +379,8 @@ public class GameHandler extends Thread {
                 }
 
             }
-            GameHandler p1 = GameHandler.onlineClients.get(index1) ;
-            GameHandler p2 = GameHandler.onlineClients.get(index2) ;
+            GameHandler p1 = GameHandler.onlineClients.get(index1);
+            GameHandler p2 = GameHandler.onlineClients.get(index2);
             GameHandler.inGameClients.add(p1);
             GameHandler.inGameClients.add(p2);
             GameHandler.onlineClients.remove(p1);

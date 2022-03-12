@@ -12,11 +12,23 @@ import models.Player;
  * @author Youssef
  */
 public interface Database {
+
     public boolean registerPlayer(String username, String password);
+
     public Player loginPlayer(String username, String password);
+
     public int closePlayer(int id);
-   // public String getPlayerAtID(int ID);
+    // public String getPlayerAtID(int ID);
+
     public int getPlayerScore(int ID);
+
     public String getPlayerUsername(int ID);
+
     public int getNoOfPlayersInServer();
+
+    public int IncreasePlayerScore(int ID);
+
+    public boolean saveGameMoves(int playerOneId, int playerTwoId, String gameMoves);
+    
+    public String getMyGames(int ID);
 }

@@ -73,6 +73,11 @@ public class RequestManager {
             
             return new ChallengeResponse(challangeRespons,id1,id2);
         }
+             if(AvailableActions.GetMyGames.getString().equals(parts[0])){
+            String id1 =  parts[1];
+            int id = Integer.parseInt(id1);
+            return new GetMyGames (id);
+        }
         return new Register("x", "y");
     }
     
@@ -176,15 +181,15 @@ public class RequestManager {
             
         }
          if(action instanceof ChallengeRequest){
-            System.out.println("i am in processhhhhhhhhhhhhhh  "+((ChallengeRequest) action).id1+((ChallengeRequest) action).id2);
             int id1 = Integer.parseInt(((ChallengeRequest) action).id1);
             int id2 = Integer.parseInt(((ChallengeRequest) action).id2);
            String name1= db.getPlayerUsername(id1);
             String name2= db.getPlayerUsername(id2);
             String score1 = Integer.toString(db.getPlayerScore(id1));
             String score2 = Integer.toString(db.getPlayerScore(id2));
+                        System.out.println("i am Procissing challange request  "+score1+score2);
+
             gameHandler.getPlayerFromonlineVector(((ChallengeRequest) action).id1,((ChallengeRequest) action).id2,name1,name2,score1,score2);
-            // return ((ChallengeRequest) action).id2;
          }
          
          if(action instanceof ChallengeResponse){
@@ -195,12 +200,20 @@ public class RequestManager {
             String name2= db.getPlayerUsername(id2);
             String score1 = Integer.toString(db.getPlayerScore(id1));
             String score2 = Integer.toString(db.getPlayerScore(id2));
+                                    System.out.println("i am Procissing challange Response  "+score1+score2);
+
             String respons =((ChallengeResponse) action).respons;
            gameHandler.replyonPlayer( respons,((ChallengeResponse) action).id1,((ChallengeResponse) action).id2,name1,name2,score1,score2);
-             System.out.println("gggggggggggggggkkkkkkkkkkkkkkkkllllllllllllllllll"+((ChallengeResponse) action).respons);
-             //return ((ChallengeResponse) action).respons;
          }
-        
+             if (action instanceof GetMyGames){
+          System.out.println("Get My Games");
+          
+            String response = db.getMyGames(((GetMyGames) action).senderId);
+            
+           String respons ="GetMyGamesResponse," + response ;
+           gameHandler.getPs().println(respons);
+            
+        }
        
     }
       public String getOnlinePlayersList()

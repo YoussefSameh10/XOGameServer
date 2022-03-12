@@ -16,6 +16,7 @@ public enum AvailableActions {
     ChallengeRequest("ChallengeRequest"),
     ChallengeResponse("ChallengeResponse"),
     Move("Move"),
+    GetMyGames("GetMyGames"),
     ClientClose("ClientClose");
     
     private String action;
