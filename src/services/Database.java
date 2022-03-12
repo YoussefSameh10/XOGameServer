@@ -18,4 +18,5 @@ public interface Database {
    // public String getPlayerAtID(int ID);
     public int getPlayerScore(int ID);
     public String getPlayerUsername(int ID);
+    public int getNoOfPlayersInServer();
 }

@@ -53,6 +53,9 @@ public class GameHandler extends Thread {
                 cs.close();
                 ps.close();
                 dis.close();
+                requestManager.updateAllPlayersListForAllPlayers();
+                System.out.println("Game Handler Initializer !!");
+
                 Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex1) {
                 Logger.getLogger(GameHandler.class.getName()).log(Level.SEVERE, null, ex1);
@@ -322,6 +325,7 @@ public class GameHandler extends Thread {
             GameHandler.inGameClients.add(p2);
             GameHandler.onlineClients.remove(p1);
             GameHandler.onlineClients.remove(p2);
+            requestManager.updateAllPlayersListForAllPlayers();
 
         } else if (s.equals("notAccept")) {
             System.out.println("serverrrrrrrrrrrnnnnnnnnnnotaccepttttttttttttttttttt");
