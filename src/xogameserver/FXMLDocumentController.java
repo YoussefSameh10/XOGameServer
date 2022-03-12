@@ -85,6 +85,12 @@ public class FXMLDocumentController implements Initializable {
             System.out.println("MSG FROM SERVER: URGENT SERVER CLOSE  heloooooooo" + GameHandler.onlineClients.size());
             gh.ps.println("ServerClose,Success");
         }
+        for(GameHandler gh : GameHandler.inGameClients){
+            System.out.println("MSG FROM SERVER: URGENT SERVER CLOSE  heloooooooo" + GameHandler.inGameClients.size());
+            gh.ps.println("ServerClose,Success");
+        }
+        
         GameHandler.onlineClients.removeAllElements();
+        GameHandler.inGameClients.removeAllElements();
     }
 }
