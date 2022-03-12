@@ -68,7 +68,7 @@ public class DAO implements Database {
     
     public ResultSet getRegisteredPlayers() throws SQLException {
         PreparedStatement getStmt = con.prepareStatement(
-                "SELECT * FROM PLAYER",
+                "SELECT * FROM PLAYERS",
                 ResultSet.TYPE_SCROLL_SENSITIVE,
                 ResultSet.CONCUR_READ_ONLY
         );

@@ -32,7 +32,7 @@ public class GameHandler extends Thread {
     DataInputStream dis;
     PrintStream ps;
     public static Vector<GameHandler> onlineClients = new Vector<GameHandler>();
-    static Vector<GameHandler> inGameClients = new Vector<GameHandler>();
+    public static Vector<GameHandler> inGameClients = new Vector<GameHandler>();
     private int ID;
     RequestManager requestManager;
     private Match match;
