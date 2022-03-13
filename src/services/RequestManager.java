@@ -89,6 +89,9 @@ public class RequestManager {
             int id = Integer.parseInt(id1);
             return new BackToOnline(id);
         }
+        if (AvailableActions.Logout.getString().equals(parts[0])) {
+            return new Logout();
+        }
         return new Register("x", "y");
     }
 
@@ -231,6 +234,11 @@ public class RequestManager {
             GameHandler.inGameClients.remove(gameHandler);
             GameHandler.onlineClients.add(gameHandler);
             kickPlayerOffGame(((BackToOnline) action).secondPlayerID);
+        }
+        if (action instanceof Logout) {
+
+            GameHandler.onlineClients.remove(gameHandler);
+            updateAllPlayersListForAllPlayers();
         }
 
     }
