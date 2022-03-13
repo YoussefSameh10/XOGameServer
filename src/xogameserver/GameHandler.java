@@ -217,11 +217,12 @@ public class GameHandler extends Thread {
         if (match.getBoard().isGameOver()) {
             System.out.println("In GAME HANDLER RESULT");
             GameHandler player = null;
-
+            System.out.println("ISGAMESTARTER: " +isGameStarter);
             //save player1  id  (starter)  save player2 id save game record save boolean false
             if (match.getBoard().getWinningMark() == Mark.X) {
                 if (isGameStarter) {
                     this.ps.println("GameResult,Win," + match.getBoard().getBoardStatus());
+                    System.out.println("X wins and i start");
                     this.db.IncreasePlayerScore(ID);
 
                     for (GameHandler gh : GameHandler.inGameClients) {
@@ -244,6 +245,7 @@ public class GameHandler extends Thread {
                         if (gh.getID() == playerTwoId) {
                             gh.match = match;
                             gh.ps.println("GameResult,Win," + match.getBoard().getBoardStatus());
+                            System.out.println("X wins and i didnt start");
                             this.db.IncreasePlayerScore(gh.getID());
                             //   save  gh.getIDas player1 ID ,save  myId  as player2 ID save game rec 
                             db.saveGameMoves(gh.getID(), ID, gameRec.toString());
@@ -266,6 +268,7 @@ public class GameHandler extends Thread {
                         if (gh.getID() == playerTwoId) {
                             gh.match = match;
                             gh.ps.println("GameResult,Win," + match.getBoard().getBoardStatus());
+                            System.out.println("O wins and i start");
                                this.db.IncreasePlayerScore(gh.getID());
                             //   save myId as player1 ID , save gh.getID as player2 ID save game rec 
                             db.saveGameMoves(ID, gh.getID(), gameRec.toString());
@@ -275,11 +278,11 @@ public class GameHandler extends Thread {
                             gh.match = null;
                             match = null;
                             player = gh;
-
                         }
                     }
                 } else {
                     this.ps.println("GameResult,Win," + match.getBoard().getBoardStatus());
+                    System.out.println("O wins and i didnt start");
                     this.db.IncreasePlayerScore(ID);
                     for (GameHandler gh : GameHandler.inGameClients) {
                         if (gh.getID() == playerTwoId) {
