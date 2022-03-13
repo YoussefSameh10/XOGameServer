@@ -35,6 +35,17 @@ class Login implements ServerAction {
     
 }
 
+        
+  class BackToOnline implements ServerAction {
+    int secondPlayerID;
+
+    public BackToOnline(int secondPlayerID) {
+        this.secondPlayerID = secondPlayerID;
+    }
+    
+}      
+        
+        
 class GetOnlinePlayersList implements ServerAction {
     
 }

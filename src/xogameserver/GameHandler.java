@@ -216,6 +216,8 @@ public class GameHandler extends Thread {
 
         if (match.getBoard().isGameOver()) {
             System.out.println("In GAME HANDLER RESULT");
+            GameHandler player = null;
+
             //save player1  id  (starter)  save player2 id save game record save boolean false
             if (match.getBoard().getWinningMark() == Mark.X) {
                 if (isGameStarter) {
@@ -233,6 +235,7 @@ public class GameHandler extends Thread {
                             gameRec = new StringBuffer();
                             gh.match = null;
                             match = null;
+                            player = gh;
                         }
                     }
                 } else {
@@ -248,6 +251,7 @@ public class GameHandler extends Thread {
                             gameRec = new StringBuffer();
                             gh.match = null;
                             match = null;
+                            player = gh;
 
                         }
                     }
@@ -269,6 +273,7 @@ public class GameHandler extends Thread {
                             gameRec = new StringBuffer();
                             gh.match = null;
                             match = null;
+                            player = gh;
 
                         }
                     }
@@ -285,8 +290,10 @@ public class GameHandler extends Thread {
                             gameRec = new StringBuffer();
                             gh.match = null;
                             match = null;
+                            player = gh;
 
                         }
+
                     }
 
                 }
@@ -299,7 +306,7 @@ public class GameHandler extends Thread {
                             System.out.println("IN TIE 1");
                             db.saveGameMoves(ID, gh.getID(), gameRec.toString());
                         } else {
-                                                        System.out.println("IN TIE 2");
+                            System.out.println("IN TIE 2");
 
                             db.saveGameMoves(gh.getID(), ID, gameRec.toString());
                         }
@@ -310,9 +317,20 @@ public class GameHandler extends Thread {
                         match = null;
                         gh.gameRec = new StringBuffer();
                         gameRec = new StringBuffer();
+                        player = gh;
+
                     }
                 }
             }
+
+            if (player != null) {
+                GameHandler.inGameClients.remove(player);
+                GameHandler.onlineClients.add(player);
+                GameHandler.inGameClients.remove(this);
+                GameHandler.onlineClients.add(this);
+                updateAllPlayersListForAllPlayers();
+            }
+
         }
 
     }
@@ -399,6 +417,48 @@ public class GameHandler extends Thread {
             }
         }
     }
+    
+          public String getOnlinePlayersList()
+    {
+        String users = "";
+        int noOfOnlineClients = GameHandler.onlineClients.size();
+        for (int i=0 ; i<noOfOnlineClients ; i++)
+        {
+            int currentPlayerID = GameHandler.onlineClients.get(i).getID();
+            int currentPlayerScore = db.getPlayerScore(currentPlayerID);
+            String currentPlayerUsername = db.getPlayerUsername(currentPlayerID);
+            if(!currentPlayerUsername.equals(""));
+            {
+                if (i==0)
+                {
+                    users = currentPlayerUsername + ":" + String.valueOf(currentPlayerID) + ":" +String.valueOf(currentPlayerScore);
+                }
+                else 
+                {
+                    users = users + " " + currentPlayerUsername + ":" + String.valueOf(currentPlayerID) + ":" + String.valueOf(currentPlayerScore);
+                }
+            }
+        }
+        return users;
+    }
+        public void updateAllPlayersListForAllPlayers()
+    {
+        System.out.println("Online Players: " + GameHandler.onlineClients.size());
+        System.out.println("In-Game Players: " + GameHandler.inGameClients.size());
+        for (GameHandler onlineClient : GameHandler.onlineClients) {
+                    onlineClient.getPs().println("GetOnlinePlayersListResponse," + getOnlinePlayersList());
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     @Override
     public void run() {
@@ -410,6 +470,7 @@ public class GameHandler extends Thread {
                 if (msg != null) {
                     ServerAction action = requestManager.parse(msg);
                     requestManager.process(action, this);
+                    System.out.println(msg);
                     // String response =
                     /*
                         for loop over all online players to end the  move to the right player
