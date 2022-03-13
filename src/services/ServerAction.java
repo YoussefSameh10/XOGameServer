@@ -39,24 +39,6 @@ class GetOnlinePlayersList implements ServerAction {
     
 }
 
-//class ChallengeRequest implements ServerAction {
-//    String id1,id2;
-//    public ChallengeRequest(String id1,String id2){
-//      this.id1 = id1;
-//      this.id2 = id2;
-//    } 
-//    
-//}
-
-//class ChallengeResponse implements ServerAction {
-//    String respons;
-//    public ChallengeResponse(String respons){
-//        this.respons = respons;
-//    } 
-//    
-//}
-
-
 class Move implements ServerAction {
     int cellNumber ;
     int senderId;
@@ -83,4 +65,8 @@ class GetMyGames implements ServerAction {
         this.senderId = senderId;
     
     }
+}
+
+class Logout implements ServerAction {
+    
 }

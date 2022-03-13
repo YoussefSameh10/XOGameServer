@@ -83,6 +83,10 @@ public class RequestManager {
             int id = Integer.parseInt(id1);
             return new GetMyGames(id);
         }
+        
+        if (AvailableActions.Logout.getString().equals(parts[0])) {
+            return new Logout();
+        }
         return new Register("x", "y");
     }
 
@@ -218,6 +222,12 @@ public class RequestManager {
             String respons = "GetMyGamesResponse," + response;
             gameHandler.getPs().println(respons);
 
+        }
+        
+        if (action instanceof Logout) {
+
+            GameHandler.onlineClients.remove(gameHandler);
+            updateAllPlayersListForAllPlayers();
         }
 
     }

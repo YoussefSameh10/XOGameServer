@@ -1,0 +1,19 @@
+Sun Mar 13 01:34:25 EET 2022 : Apache Derby Network Server - 10.10.2.0 - (1582446) started and ready to accept connections on port 1527
+----------------------------------------------------------------
+Sun Mar 13 01:34:26 EET 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.2.0 - (1582446): instance a816c00e-017f-807b-b5f7-000009e67503 
+on database directory E:\Studies\ITI\Courses\13. Java\Project\XOGameServer\DB\XOGame with class loader sun.misc.Launcher$AppClassLoader@144bcfa 
+Loaded from file:/C:/Program%20Files/glassfish-4.1.1/javadb/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_321-b07
+user.dir=C:\Program Files\glassfish-4.1.1\javadb
+os.name=Windows 10
+os.arch=x86
+os.version=10.0
+derby.system.home=E:\Studies\ITI\Courses\13. Java\Project\XOGameServer\DB
+------------  Begin Error Message -------------
+
+System may be in a inconsistent state, missing file E:\Studies\ITI\Courses\13. Java\Project\XOGameServer\DB\XOGame\log\log3.dat
+------------  End Error Message -------------
+
+Database Class Loader started - derby.database.classpath=''
