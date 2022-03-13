@@ -266,6 +266,7 @@ public class GameHandler extends Thread {
                         if (gh.getID() == playerTwoId) {
                             gh.match = match;
                             gh.ps.println("GameResult,Win," + match.getBoard().getBoardStatus());
+                               this.db.IncreasePlayerScore(gh.getID());
                             //   save myId as player1 ID , save gh.getID as player2 ID save game rec 
                             db.saveGameMoves(ID, gh.getID(), gameRec.toString());
 
@@ -279,7 +280,8 @@ public class GameHandler extends Thread {
                     }
                 } else {
                     this.ps.println("GameResult,Win," + match.getBoard().getBoardStatus());
-                    for (GameHandler gh : GameHandler.onlineClients) {
+                    this.db.IncreasePlayerScore(ID);
+                    for (GameHandler gh : GameHandler.inGameClients) {
                         if (gh.getID() == playerTwoId) {
                             gh.match = match;
                             gh.ps.println("GameResult,Lose," + match.getBoard().getBoardStatus());
